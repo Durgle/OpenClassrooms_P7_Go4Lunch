@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:background="@color/grey"
+    >
+
+    <ImageView
+        android:id="@+id/drawerBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/lunch_presentation"
+        android:alpha="0.2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            android:textStyle="bold"
+            android:layout_marginEnd="24dp"
+            android:textAppearance="?attr/textAppearanceHeadlineLarge"
+            android:textColor="?attr/colorOnSurface"
+            android:text="@string/app_name" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/drawerData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="54dp"
+            android:layout_marginStart="20dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:id="@+id/drawerAvatar"
+                app:shapeAppearanceOverlay="@style/Widget.App.ShapeableImageView.Circular"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/vault_boy"
+                tools:src="@drawable/vault_boy"/>
+
+            <TextView
+                android:id="@+id/drawerUsername"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textSize="18sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/drawerUserEmail"
+                app:layout_constraintStart_toEndOf="@+id/drawerAvatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="?attr/colorOnSurface"
+                android:text="@string/tools_user_name"
+                tools:text="@string/tools_user_name" />
+
+            <TextView
+                android:id="@+id/drawerUserEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintTop_toBottomOf="@+id/drawerUsername"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/drawerAvatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="?attr/colorOnSurface"
+                android:text="@string/tools_user_email"
+                tools:text="@string/tools_user_email" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
