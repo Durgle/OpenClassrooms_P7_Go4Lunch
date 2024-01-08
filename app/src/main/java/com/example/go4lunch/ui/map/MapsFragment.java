@@ -2,15 +2,20 @@ package com.example.go4lunch.ui.map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.data.models.map.Place;
 import com.example.go4lunch.databinding.FragmentMapsBinding;
 import com.example.go4lunch.injection.ViewModelFactory;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -59,10 +64,55 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
+        requestPermission();
 
-        LatLng paris = new LatLng(48.8731223, 2.3468543);
-        mMap.addMarker(new MarkerOptions().position(paris).title("Paris"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paris, 16.0f));
+        mViewModel.getCurrentLocation().observe(getViewLifecycleOwner(),new Observer<Location>() {
+            @Override
+            public void onChanged(Location location) {
+                if(location != null){
+                    LatLng position = new LatLng(location.getLatitude(),location.getLongitude());
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 16.0f));
+                    mViewModel.getCurrentLocation().removeObserver(this);
+                }
+            }
+        });
+
+        mViewModel.getNearbyPlaces().observe(getViewLifecycleOwner(),placeList -> {
+            for (Place place : placeList) {
+                MarkerOptions marker = createMarker(place);
+                if(marker != null) {
+                    mMap.addMarker(marker);
+                }
+            }
+        });
+
         mMap.getUiSettings().setZoomControlsEnabled(true);
+    }
+
+    public void requestPermission(){
+        ActivityCompat.requestPermissions(
+                requireActivity(),
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                0
+        );
+    }
+
+    public MarkerOptions createMarker(Place place) {
+        if(place.getGeometry() != null) {
+            LatLng position = new LatLng(
+                    place.getGeometry().getLocation().getLat(),
+                    place.getGeometry().getLocation().getLng()
+            );
+            return new MarkerOptions().position(position).title(place.getName());
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mViewModel.refresh();
     }
 }

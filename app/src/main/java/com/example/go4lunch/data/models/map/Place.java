@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Place {
@@ -26,9 +27,9 @@ public class Place {
     @Expose
     private final Geometry geometry;
 
-    @SerializedName("icon")
+    @SerializedName("photos")
     @Expose
-    private final String icon;
+    private final List<PlacePhoto> photos;
 
     @SerializedName("name")
     @Expose
@@ -55,7 +56,7 @@ public class Place {
             @Nullable String formattedAddress,
             @Nullable String formattedPhoneNumber,
             @Nullable Geometry geometry,
-            @Nullable String icon,
+            @Nullable List<PlacePhoto> photos,
             @Nullable String name,
             @Nullable String id,
             @Nullable Float rating,
@@ -66,7 +67,7 @@ public class Place {
         this.formattedAddress = formattedAddress;
         this.formattedPhoneNumber = formattedPhoneNumber;
         this.geometry = geometry;
-        this.icon = icon;
+        this.photos = photos;
         this.name = name;
         this.id = id;
         this.rating = rating;
@@ -74,42 +75,52 @@ public class Place {
         this.website = website;
     }
 
+    @Nullable
     public String getBusinessStatus() {
         return businessStatus;
     }
 
+    @Nullable
     public String getFormattedAddress() {
         return formattedAddress;
     }
 
+    @Nullable
     public String getFormattedPhoneNumber() {
         return formattedPhoneNumber;
     }
 
+    @Nullable
     public Geometry getGeometry() {
         return geometry;
     }
 
-    public String getIcon() {
-        return icon;
+    @Nullable
+    public List<PlacePhoto> getPhotos() {
+        return photos;
     }
 
+    @Nullable
     public String getName() {
         return name;
     }
 
+    @Nullable
     public String getId() {
         return id;
     }
 
+    @Nullable
     public Float getRating() {
         return rating;
     }
 
+    @Nullable
     public Boolean getReservable() {
         return reservable;
     }
 
+    @Nullable
     public String getWebsite() {
         return website;
     }
@@ -119,12 +130,12 @@ public class Place {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Place place = (Place) o;
-        return Objects.equals(businessStatus, place.businessStatus) && Objects.equals(formattedAddress, place.formattedAddress) && Objects.equals(formattedPhoneNumber, place.formattedPhoneNumber) && Objects.equals(geometry, place.geometry) && Objects.equals(icon, place.icon) && Objects.equals(name, place.name) && Objects.equals(id, place.id) && Objects.equals(rating, place.rating) && Objects.equals(reservable, place.reservable) && Objects.equals(website, place.website);
+        return Objects.equals(businessStatus, place.businessStatus) && Objects.equals(formattedAddress, place.formattedAddress) && Objects.equals(formattedPhoneNumber, place.formattedPhoneNumber) && Objects.equals(geometry, place.geometry) && Objects.equals(photos, place.photos) && Objects.equals(name, place.name) && Objects.equals(id, place.id) && Objects.equals(rating, place.rating) && Objects.equals(reservable, place.reservable) && Objects.equals(website, place.website);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(businessStatus, formattedAddress, formattedPhoneNumber, geometry, icon, name, id, rating, reservable, website);
+        return Objects.hash(businessStatus, formattedAddress, formattedPhoneNumber, geometry, photos, name, id, rating, reservable, website);
     }
 
     @NonNull
@@ -135,7 +146,7 @@ public class Place {
                 ", formattedAddress='" + formattedAddress + '\'' +
                 ", formattedPhoneNumber='" + formattedPhoneNumber + '\'' +
                 ", geometry=" + geometry +
-                ", icon='" + icon + '\'' +
+                ", photos='" + photos + '\'' +
                 ", name='" + name + '\'' +
                 ", id='" + id + '\'' +
                 ", rating=" + rating +
