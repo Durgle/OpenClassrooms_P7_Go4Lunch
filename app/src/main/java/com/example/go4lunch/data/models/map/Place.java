@@ -35,6 +35,10 @@ public class Place {
     @Expose
     private final String name;
 
+    @SerializedName("opening_hours")
+    @Expose
+    private final PlaceOpeningHours openingHours;
+
     @SerializedName("place_id")
     @Expose
     private final String id;
@@ -51,6 +55,8 @@ public class Place {
     @Expose
     private final String website;
 
+    //TODO ajouter vicinity
+
     public Place(
             @Nullable String businessStatus,
             @Nullable String formattedAddress,
@@ -58,7 +64,8 @@ public class Place {
             @Nullable Geometry geometry,
             @Nullable List<PlacePhoto> photos,
             @Nullable String name,
-            @Nullable String id,
+            @Nullable PlaceOpeningHours openingHours,
+            @NonNull String id,
             @Nullable Float rating,
             @Nullable Boolean reservable,
             @Nullable String website
@@ -69,6 +76,7 @@ public class Place {
         this.geometry = geometry;
         this.photos = photos;
         this.name = name;
+        this.openingHours = openingHours;
         this.id = id;
         this.rating = rating;
         this.reservable = reservable;
@@ -106,6 +114,11 @@ public class Place {
     }
 
     @Nullable
+    public PlaceOpeningHours getOpeningHours() {
+        return openingHours;
+    }
+
+    @NonNull
     public String getId() {
         return id;
     }
@@ -130,12 +143,12 @@ public class Place {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Place place = (Place) o;
-        return Objects.equals(businessStatus, place.businessStatus) && Objects.equals(formattedAddress, place.formattedAddress) && Objects.equals(formattedPhoneNumber, place.formattedPhoneNumber) && Objects.equals(geometry, place.geometry) && Objects.equals(photos, place.photos) && Objects.equals(name, place.name) && Objects.equals(id, place.id) && Objects.equals(rating, place.rating) && Objects.equals(reservable, place.reservable) && Objects.equals(website, place.website);
+        return Objects.equals(businessStatus, place.businessStatus) && Objects.equals(formattedAddress, place.formattedAddress) && Objects.equals(formattedPhoneNumber, place.formattedPhoneNumber) && Objects.equals(geometry, place.geometry) && Objects.equals(photos, place.photos) && Objects.equals(name, place.name) && Objects.equals(openingHours, place.openingHours) && Objects.equals(id, place.id) && Objects.equals(rating, place.rating) && Objects.equals(reservable, place.reservable) && Objects.equals(website, place.website);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(businessStatus, formattedAddress, formattedPhoneNumber, geometry, photos, name, id, rating, reservable, website);
+        return Objects.hash(businessStatus, formattedAddress, formattedPhoneNumber, geometry, photos, name, openingHours, id, rating, reservable, website);
     }
 
     @NonNull
@@ -146,8 +159,9 @@ public class Place {
                 ", formattedAddress='" + formattedAddress + '\'' +
                 ", formattedPhoneNumber='" + formattedPhoneNumber + '\'' +
                 ", geometry=" + geometry +
-                ", photos='" + photos + '\'' +
+                ", photos=" + photos +
                 ", name='" + name + '\'' +
+                ", openingHours=" + openingHours +
                 ", id='" + id + '\'' +
                 ", rating=" + rating +
                 ", reservable=" + reservable +

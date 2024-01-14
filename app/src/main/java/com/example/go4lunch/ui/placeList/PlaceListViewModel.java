@@ -1,11 +1,10 @@
-package com.example.go4lunch.ui.map;
+package com.example.go4lunch.ui.placeList;
 
 import android.annotation.SuppressLint;
 import android.location.Location;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
@@ -18,25 +17,25 @@ import com.example.go4lunch.data.services.LocationRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapViewModel extends ViewModel {
+public class PlaceListViewModel extends ViewModel {
 
     private final GoogleMapRepository googleMapRepository;
     private final LocationRepository locationRepository;
     private final PermissionChecker permissionChecker;
     private final LiveData<List<Place>> nearbyPlace;
 
-    public MapViewModel(GoogleMapRepository googleMapRepository, LocationRepository locationRepository,PermissionChecker permissionChecker) {
+    public PlaceListViewModel(GoogleMapRepository googleMapRepository, LocationRepository locationRepository, PermissionChecker permissionChecker) {
         this.googleMapRepository = googleMapRepository;
         this.locationRepository = locationRepository;
         this.permissionChecker = permissionChecker;
 
         LiveData<Location> locationLiveData = locationRepository.getLocationLiveData();
 
-        nearbyPlace = Transformations.switchMap(locationLiveData,location -> {
+        nearbyPlace = Transformations.switchMap(locationLiveData, location -> {
             if(location != null){
                 return this.googleMapRepository.getNearbyPlaceLiveData(location.getLatitude(), location.getLongitude());
             }
-           return new MutableLiveData<>(new ArrayList<>());
+            return new MutableLiveData<>(new ArrayList<>());
         });
     }
 
@@ -58,4 +57,5 @@ public class MapViewModel extends ViewModel {
     public LiveData<Location> getCurrentLocation(){
         return locationRepository.getLocationLiveData();
     }
+
 }

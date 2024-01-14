@@ -3,6 +3,8 @@ package com.example.go4lunch.injection;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.SavedStateHandle;
+import androidx.lifecycle.SavedStateHandleSupport;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.viewmodel.CreationExtras;
@@ -13,6 +15,9 @@ import com.example.go4lunch.data.RetrofitService;
 import com.example.go4lunch.data.services.GoogleMapRepository;
 import com.example.go4lunch.data.services.LocationRepository;
 import com.example.go4lunch.ui.map.MapViewModel;
+import com.example.go4lunch.ui.placeDetail.PlaceDetailActivity;
+import com.example.go4lunch.ui.placeDetail.PlaceDetailViewModel;
+import com.example.go4lunch.ui.placeList.PlaceListViewModel;
 import com.google.android.gms.location.LocationServices;
 
 import org.jetbrains.annotations.NotNull;
@@ -61,23 +66,28 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     }
 
     @SuppressWarnings("unchecked")
+    @NonNull
     @Override
-    @NotNull
-    public <T extends ViewModel> T create(Class<T> modelClass) {
+    public <T extends ViewModel> T create(@NonNull Class<T> modelClass, @NonNull CreationExtras extras) {
         if (modelClass.isAssignableFrom(MapViewModel.class)) {
-            // We inject the Repository in the ViewModel constructor
             return (T) new MapViewModel(
                     googleMapRepository,
                     mLocationRepository,
                     mPermissionChecker
             );
         }
+        if (modelClass.isAssignableFrom(PlaceListViewModel.class)) {
+            return (T) new PlaceListViewModel(
+                    googleMapRepository,
+                    mLocationRepository,
+                    mPermissionChecker
+            );
+        }
+        if (modelClass.isAssignableFrom(PlaceDetailViewModel.class)) {
+            SavedStateHandle savedStateHandle = SavedStateHandleSupport.createSavedStateHandle(extras);
+            String placeId = savedStateHandle.get(PlaceDetailActivity.PLACE_ID);
+            return (T) new PlaceDetailViewModel(googleMapRepository,placeId);
+        }
         throw new IllegalArgumentException("Unknown ViewModel class");
-    }
-
-    @NonNull
-    @Override
-    public <T extends ViewModel> T create(@NonNull Class<T> modelClass, @NonNull CreationExtras extras) {
-        return ViewModelProvider.Factory.super.create(modelClass, extras);
     }
 }
