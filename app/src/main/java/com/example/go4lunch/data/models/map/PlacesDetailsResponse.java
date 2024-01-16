@@ -7,11 +7,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Objects;
 
 public class PlacesDetailsResponse {
 
     @NonNull
-    @SerializedName("results")
+    @SerializedName("result")
     @Expose
     private final Place place;
 
@@ -41,5 +42,28 @@ public class PlacesDetailsResponse {
 
     public List<String> getInfoMessages() {
         return infoMessages;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlacesDetailsResponse that = (PlacesDetailsResponse) o;
+        return place.equals(that.place) && Objects.equals(status, that.status) && Objects.equals(infoMessages, that.infoMessages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(place, status, infoMessages);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "PlacesDetailsResponse{" +
+                "place=" + place +
+                ", status='" + status + '\'' +
+                ", infoMessages=" + infoMessages +
+                '}';
     }
 }

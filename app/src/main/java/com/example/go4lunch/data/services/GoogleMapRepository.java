@@ -79,10 +79,9 @@ public class GoogleMapRepository {
                 @Override
                 public void onResponse(@NonNull Call<PlacesDetailsResponse> call, @NonNull Response<PlacesDetailsResponse> response) {
                     if (response.body() != null && response.isSuccessful()) {
-
                         placeDetailFetchedResponses.put(placeId, response.body());
                         placesLiveData.setValue(response.body().getPlace());
-                        Log.e("GoogleMapRepository","success");
+                        Log.e("GoogleMapRepository",response.body().toString());
                     } else {
                         Log.e("GoogleMapRepository",placeId+' '+response.message()+' '+response.code());
                     }
@@ -91,7 +90,6 @@ public class GoogleMapRepository {
                 @Override
                 public void onFailure(@NonNull Call<PlacesDetailsResponse> call, @NonNull Throwable t) {
                     placesLiveData.setValue(null);
-                    Log.e("GoogleMapRepository","onFailure");
                 }
             });
         }

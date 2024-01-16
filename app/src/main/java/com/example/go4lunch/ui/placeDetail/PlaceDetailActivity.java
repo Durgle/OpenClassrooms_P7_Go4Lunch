@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.example.go4lunch.R;
 import com.example.go4lunch.data.models.map.Place;
 import com.example.go4lunch.databinding.ActivityPlaceDetailBinding;
@@ -36,9 +37,14 @@ public class PlaceDetailActivity extends AppCompatActivity {
         this.viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(PlaceDetailViewModel.class);
         this.viewModel.getPlace().observe(this, place -> {
             if(place != null){
-                binding.detailPlaceName.setText(place.getName());
+                binding.detailPlaceContent.placeDetailName.setText(place.getName());
+                binding.detailPlaceContent.placeDetailAddress.setText(place.getAddress());
+                binding.detailPlaceContent.placeDetailRating.setText(place.getRating());
+
+                Glide.with(this)
+                        .load(place.getPhoto() != null ? place.getPhoto() : R.drawable.no_photos)
+                        .into(binding.detailPlacePhoto);
             }
-            Log.e("PlaceDetailActivity","Observe");
         });
     }
 

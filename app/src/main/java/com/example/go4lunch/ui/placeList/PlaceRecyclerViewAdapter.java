@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import com.example.go4lunch.R;
 import com.example.go4lunch.data.models.map.Place;
 
-public class PlaceRecyclerViewAdapter extends ListAdapter<Place,PlaceViewHolder> {
+public class PlaceRecyclerViewAdapter extends ListAdapter<PlaceViewState,PlaceViewHolder> {
 
     public interface OnItemClickListener {
 
@@ -38,14 +38,14 @@ public class PlaceRecyclerViewAdapter extends ListAdapter<Place,PlaceViewHolder>
         holder.bind(getItem(position),this.listener);
     }
 
-    public static final DiffUtil.ItemCallback<Place> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Place>() {
+    public static final DiffUtil.ItemCallback<PlaceViewState> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<PlaceViewState>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull Place oldPlace, @NonNull Place newPlace) {
+                public boolean areItemsTheSame(@NonNull PlaceViewState oldPlace, @NonNull PlaceViewState newPlace) {
                     return oldPlace.getId().equals(newPlace.getId());
                 }
                 @Override
-                public boolean areContentsTheSame(@NonNull Place oldPlace, @NonNull Place newPlace) {
+                public boolean areContentsTheSame(@NonNull PlaceViewState oldPlace, @NonNull PlaceViewState newPlace) {
                     return oldPlace.equals(newPlace);
                 }
             };

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/place_item"
-    tools:showIn="@layout/fragment_place_list"
-    android:layout_marginBottom="10dp">
+    tools:showIn="@layout/fragment_place_list">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,9 +16,9 @@
             android:id="@+id/place_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_margin="@dimen/small_content_margin"
             android:textStyle="bold"
-            tools:text="Le Zinc"
+            tools:text="@string/tools_place_name"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/place_distance"
@@ -29,8 +28,8 @@
             android:id="@+id/place_address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            tools:text="French - 12 rue du Faubourg Poissonnière"
+            android:layout_margin="@dimen/small_content_margin"
+            tools:text="@string/tools_place_address"
             android:maxLines="1"
             android:ellipsize="end"
             app:layout_constraintTop_toBottomOf="@id/place_name"
@@ -42,8 +41,9 @@
             android:id="@+id/place_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            tools:text="Open until 7pm"
+            android:layout_margin="@dimen/small_content_margin"
+            android:textStyle="italic"
+            tools:text="@string/tools_place_status"
             app:layout_constraintTop_toBottomOf="@id/place_address"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/place_rating"
@@ -51,10 +51,11 @@
 
         <TextView
             android:id="@+id/place_distance"
-            android:layout_width="50dp"
+            android:layout_width="@dimen/place_list_second_column_width"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            tools:text="120m"
+            tools:text="@string/tools_place_distance"
+            android:textAlignment="textEnd"
+            android:layout_margin="@dimen/small_content_margin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/place_photo"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,11 +63,11 @@
 
         <TextView
             android:id="@+id/place_user_amount"
-            android:layout_width="50dp"
+            android:layout_width="@dimen/place_list_second_column_width"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
             android:textAlignment="textEnd"
-            tools:text="(2)"
+            android:layout_margin="@dimen/small_content_margin"
+            tools:text="@string/tools_place_participant"
             tools:drawableStartCompat="@drawable/baseline_person_outline_24"
             app:layout_constraintTop_toBottomOf="@id/place_distance"
             app:layout_constraintEnd_toStartOf="@id/place_photo"
@@ -75,11 +76,12 @@
 
         <TextView
             android:id="@+id/place_rating"
-            android:layout_width="70dp"
+            android:layout_width="@dimen/place_list_second_column_width"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
             android:textAlignment="textEnd"
-            tools:text="★★★★★"
+            android:layout_margin="@dimen/small_content_margin"
+            tools:text="@string/tools_place_rating"
+            android:textColor="@color/yellow"
             app:layout_constraintTop_toBottomOf="@id/place_user_amount"
             app:layout_constraintEnd_toStartOf="@id/place_photo"
             app:layout_constraintEnd_toEndOf="parent"
@@ -87,19 +89,21 @@
 
         <ImageView
             android:id="@+id/place_photo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="4dp"
-            android:src="@drawable/vault_boy"
+            android:layout_width="@dimen/place_photo_size"
+            android:layout_height="@dimen/place_photo_size"
+            android:layout_margin="@dimen/small_content_margin"
+            tools:src="@drawable/no_photos"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/place_item_divider"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/place_photo" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/place_item_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginHorizontal="8dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

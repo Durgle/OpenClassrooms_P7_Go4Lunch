@@ -7,6 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.Objects;
 
 public class NearbySearchResponse {
 
@@ -40,5 +41,28 @@ public class NearbySearchResponse {
 
     public List<String> getInfoMessages() {
         return infoMessages;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NearbySearchResponse that = (NearbySearchResponse) o;
+        return places.equals(that.places) && Objects.equals(errorMessage, that.errorMessage) && Objects.equals(infoMessages, that.infoMessages);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(places, errorMessage, infoMessages);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "NearbySearchResponse{" +
+                "places=" + places +
+                ", errorMessage='" + errorMessage + '\'' +
+                ", infoMessages=" + infoMessages +
+                '}';
     }
 }

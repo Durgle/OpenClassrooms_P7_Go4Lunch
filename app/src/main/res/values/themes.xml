@@ -21,5 +21,14 @@
         <item name="colorOnSurface">@color/white</item>
     </style>
 
+    <style name="ThemeOverlay.App.TabLayout" parent="">
+        <item name="colorOnSurfaceVariant">@color/red</item>
+        <item name="tabIndicatorHeight">0dp</item>
+    </style>
+
     <style name="Theme.Go4Lunch" parent="Base.Theme.Go4Lunch" />
+
+    <style name="Theme.Go4Lunch.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Go4Lunch.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

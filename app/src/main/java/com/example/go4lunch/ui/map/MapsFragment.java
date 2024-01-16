@@ -3,13 +3,20 @@ package com.example.go4lunch.ui.map;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +29,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
@@ -65,13 +77,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         requestPermission();
+        try {
+            boolean success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
+
+            if (!success) {
+                Log.e("MapsFragment", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("MapsFragment", "Can't find style. Error: ", e);
+        }
 
         mViewModel.getCurrentLocation().observe(getViewLifecycleOwner(),new Observer<Location>() {
             @Override
             public void onChanged(Location location) {
                 if(location != null){
                     LatLng position = new LatLng(location.getLatitude(),location.getLongitude());
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 16.0f));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.0f));
                     mViewModel.getCurrentLocation().removeObserver(this);
                 }
             }
@@ -103,7 +124,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     place.getGeometry().getLocation().getLat(),
                     place.getGeometry().getLocation().getLng()
             );
+
             return new MarkerOptions().position(position).title(place.getName());
+
         } else {
             return null;
         }
