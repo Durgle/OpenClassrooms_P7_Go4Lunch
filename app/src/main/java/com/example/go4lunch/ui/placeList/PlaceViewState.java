@@ -5,8 +5,8 @@ import android.location.Location;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.go4lunch.BuildConfig;
 import com.example.go4lunch.data.models.map.PlaceOpeningHours;
+import com.example.go4lunch.utils.GoogleMapApiUtils;
 
 import java.util.Objects;
 
@@ -31,73 +31,18 @@ public class PlaceViewState {
             @NonNull String name,
             @Nullable String address,
             @Nullable PlaceOpeningHours placeOpeningHours,
-            Double currentLatitude,
-            Double currentLongitude,
-            Double placeLatitude,
-            Double placeLongitude,
+            Location currentLocation,
+            Location placeLocation,
             @Nullable Float rating,
             @Nullable String photoReference
     ) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.status = createStatus(placeOpeningHours);
-        this.distance = formatDistance(currentLatitude,currentLongitude,placeLatitude,placeLongitude);
-        this.rating = formatStarRating(rating);
-        this.photo = createPhotoUrl(photoReference);
-    }
-
-    public @NonNull String createStatus(PlaceOpeningHours placeOpeningHours) {
-        if(placeOpeningHours != null){
-            if( placeOpeningHours.isOpenNow() == Boolean.TRUE){
-                return "Open";
-            } else {
-                return "Close";
-            }
-        }
-        return "";
-    }
-
-    @NonNull
-    public String formatDistance(
-        Double currentLatitude,
-        Double currentLongitude,
-        Double placeLatitude,
-        Double placeLongitude
-    ) {
-
-        if(currentLatitude != null && currentLongitude != null && placeLatitude != null && placeLongitude != null){
-            float[] result = new float[1];
-            Location.distanceBetween(currentLatitude,currentLongitude,placeLatitude,placeLongitude,result);
-            return ((int)result[0])+"m";
-        }
-        return "";
-    }
-
-    @Nullable
-    public String createPhotoUrl(String photoReference) {
-        String url;
-        if(photoReference != null){
-            url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&maxheight=100&photo_reference="+ photoReference +"&key="+ BuildConfig.MAPS_API_KEY;
-        } else {
-            url = null;
-        }
-        return url;
-    }
-
-    @NonNull
-    public String formatStarRating(Float rating) {
-
-        StringBuilder stars = new StringBuilder();
-        if(rating != null){
-            int numberOfStars = (int)((rating * 3) / 5);
-
-            for (int i = 0; i < numberOfStars; i++) {
-                stars.append("\u2605");
-            }
-        }
-
-        return stars.toString();
+        this.status = GoogleMapApiUtils.createStatus(placeOpeningHours);
+        this.distance = GoogleMapApiUtils.formatDistance(currentLocation,placeLocation);
+        this.rating = GoogleMapApiUtils.formatStarRating(rating);
+        this.photo = photoReference != null ? GoogleMapApiUtils.createPhotoUrl(photoReference,100,100) : null;
     }
 
     @NonNull

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "974524257721",
+    "project_id": "openclassroom-p7-7bcc1",
+    "storage_bucket": "openclassroom-p7-7bcc1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974524257721:android:862db4867ff6ba89f15268",
+        "android_client_info": {
+          "package_name": "com.example.go4lunch"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsgPjQD9bckW7OxBJfGJI8AEutsKCY3U8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

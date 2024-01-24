@@ -3,8 +3,8 @@ package com.example.go4lunch.ui.placeDetail;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.go4lunch.BuildConfig;
 import com.example.go4lunch.data.models.map.PlaceOpeningHours;
+import com.example.go4lunch.utils.GoogleMapApiUtils;
 
 import java.util.Objects;
 
@@ -24,7 +24,7 @@ public class PlaceViewState {
 
     private final String website;
 
-    private final String photo;
+    private final String photoReference;
 
     public PlaceViewState(
             @NonNull String id,
@@ -35,41 +35,16 @@ public class PlaceViewState {
             @Nullable Float rating,
             boolean like,
             @Nullable String website,
-            @Nullable String photo) {
+            @Nullable String photoReference
+    ) {
         this.id = id;
         this.name = name;
         this.address = (address != null)? address : "";
         this.phone = (phone != null)? phone : "";
-        this.rating = formatStarRating(rating);
+        this.rating = GoogleMapApiUtils.formatStarRating(rating);
         this.like = like;
         this.website = (website != null)? website : "";
-        this.photo = createPhotoUrl(photo);
-    }
-
-    @Nullable
-    public String createPhotoUrl(String photoReference) {
-        String url;
-        if(photoReference != null){
-            url = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&maxheight=800&photo_reference="+ photoReference +"&key="+ BuildConfig.MAPS_API_KEY;
-        } else {
-            url = null;
-        }
-        return url;
-    }
-
-    @NonNull
-    public String formatStarRating(Float rating) {
-
-        StringBuilder stars = new StringBuilder();
-        if(rating != null){
-            int numberOfStars = (int)((rating * 3) / 5);
-
-            for (int i = 0; i < numberOfStars; i++) {
-                stars.append("\u2605");
-            }
-        }
-
-        return stars.toString();
+        this.photoReference = photoReference != null ? GoogleMapApiUtils.createPhotoUrl(photoReference,800,800) : null;
     }
 
     @NonNull
@@ -94,7 +69,7 @@ public class PlaceViewState {
 
     @Nullable
     public String getPhoto() {
-        return photo;
+        return photoReference;
     }
 
     @NonNull
@@ -110,12 +85,12 @@ public class PlaceViewState {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlaceViewState that = (PlaceViewState) o;
-        return like == that.like && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(phone, that.phone) && Objects.equals(rating, that.rating) && Objects.equals(website, that.website) && Objects.equals(photo, that.photo);
+        return like == that.like && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(phone, that.phone) && Objects.equals(rating, that.rating) && Objects.equals(website, that.website) && Objects.equals(photoReference, that.photoReference);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, phone, rating, like, website, photo);
+        return Objects.hash(id, name, address, phone, rating, like, website, photoReference);
     }
 
     @NonNull
@@ -129,7 +104,7 @@ public class PlaceViewState {
                 ", rating='" + rating + '\'' +
                 ", like=" + like +
                 ", website='" + website + '\'' +
-                ", photo='" + photo + '\'' +
+                ", photoReference='" + photoReference + '\'' +
                 '}';
     }
 }

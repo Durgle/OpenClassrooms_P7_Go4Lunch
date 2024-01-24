@@ -2,7 +2,6 @@ package com.example.go4lunch.ui.placeList;
 
 import android.annotation.SuppressLint;
 import android.location.Location;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,8 +13,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.go4lunch.data.PermissionChecker;
 import com.example.go4lunch.data.models.map.Place;
-import com.example.go4lunch.data.models.map.PlaceOpeningHours;
-import com.example.go4lunch.data.models.map.PlacePhoto;
 import com.example.go4lunch.data.services.GoogleMapRepository;
 import com.example.go4lunch.data.services.LocationRepository;
 
@@ -64,15 +61,14 @@ public class PlaceListViewModel extends ViewModel {
     private PlaceViewState mapPlaceData(@NonNull Place place,@NonNull Location currentLocation){
 
         String photoReference = (place.getPhotos() != null) ? place.getPhotos().get(0).getPhotoReference() : null;
-        Double latitude;
-        Double longitude;
+        Location placeLocation;
 
         if(place.getGeometry() != null){
-            latitude = place.getGeometry().getLocation().getLat();
-            longitude = place.getGeometry().getLocation().getLng();
+            placeLocation = new Location("");
+            placeLocation.setLatitude(place.getGeometry().getLocation().getLat());
+            placeLocation.setLongitude(place.getGeometry().getLocation().getLng());
         } else {
-            latitude = null;
-            longitude = null;
+            placeLocation = null;
         }
 
         return new PlaceViewState(
@@ -80,10 +76,8 @@ public class PlaceListViewModel extends ViewModel {
                 place.getName(),
                 place.getVicinity(),
                 place.getOpeningHours(),
-                currentLocation.getLatitude(),
-                currentLocation.getLongitude(),
-                latitude,
-                longitude,
+                currentLocation,
+                placeLocation,
                 place.getRating(),
                 photoReference
         );

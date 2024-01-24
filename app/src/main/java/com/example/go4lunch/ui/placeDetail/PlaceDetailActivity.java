@@ -38,8 +38,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
         this.viewModel.getPlace().observe(this, place -> {
             if(place != null){
                 binding.detailPlaceContent.placeDetailName.setText(place.getName());
+                //binding.detailPlaceContent.placeDetailName.append(place.getRating());
                 binding.detailPlaceContent.placeDetailAddress.setText(place.getAddress());
-                binding.detailPlaceContent.placeDetailRating.setText(place.getRating());
+                //binding.detailPlaceContent.placeDetailRating.setText(place.getRating());
 
                 Glide.with(this)
                         .load(place.getPhoto() != null ? place.getPhoto() : R.drawable.no_photos)

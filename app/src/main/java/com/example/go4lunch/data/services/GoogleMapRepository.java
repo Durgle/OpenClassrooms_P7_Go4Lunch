@@ -58,6 +58,7 @@ public class GoogleMapRepository {
 
                 @Override
                 public void onFailure(@NonNull Call<NearbySearchResponse> call, @NonNull Throwable t) {
+                    t.printStackTrace();
                     placesLiveData.setValue(null);
                 }
             });

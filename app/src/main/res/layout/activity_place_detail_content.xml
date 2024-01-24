@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/place_detail_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/small_content_margin"
             tools:text="@string/tools_place_name"
@@ -38,20 +38,6 @@
             android:textColor="@color/white"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/place_detail_rating"/>
-
-        <TextView
-            android:id="@+id/place_detail_rating"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/content_margin"
-            android:paddingVertical="@dimen/small_content_margin"
-            android:layout_marginEnd="84dp"
-            tools:text="@string/tools_place_rating"
-            android:textSize="@dimen/title_size"
-            android:textColor="@color/yellow"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/place_detail_name"
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <TextView
@@ -66,33 +52,67 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.tabs.TabLayout
+        <LinearLayout
+            android:id="@+id/place_detail_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/place_detail_data"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            style="@style/Widget.App.TabLayout">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/place_detail_call_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:padding="12dp"
                 android:text="@string/tab_item_call"
-                android:icon="@drawable/baseline_local_phone_24" />
+                android:textStyle="bold"
+                android:drawablePadding="8dp"
+                app:drawableTopCompat="@drawable/baseline_local_phone_24"
+                app:drawableTint="?colorPrimary"
+                android:textColor="?colorPrimary"
+                android:textAlignment="center"/>
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/place_detail_like_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:padding="12dp"
                 android:text="@string/tab_item_like"
-                android:icon="@drawable/baseline_star_24" />
+                android:textStyle="bold"
+                android:drawablePadding="8dp"
+                app:drawableTopCompat="@drawable/baseline_star_24"
+                app:drawableTint="?colorPrimary"
+                android:textColor="?colorPrimary"
+                android:textAlignment="center"/>
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/place_detail_website_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:padding="12dp"
                 android:text="@string/tab_item_website"
-                android:icon="@drawable/baseline_public_24" />
+                android:textStyle="bold"
+                android:drawablePadding="8dp"
+                app:drawableTopCompat="@drawable/baseline_public_24"
+                app:drawableTint="?colorPrimary"
+                android:textColor="?colorPrimary"
+                android:textAlignment="center"/>
+        </LinearLayout>
 
-        </com.google.android.material.tabs.TabLayout>
+        <com.google.android.material.divider.MaterialDivider
+            app:layout_constraintTop_toBottomOf="@id/place_detail_button_container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
