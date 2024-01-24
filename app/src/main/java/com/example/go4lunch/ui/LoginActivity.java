@@ -2,6 +2,7 @@ package com.example.go4lunch.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -55,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         // Create and launch sign-in intent
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
-                .setTheme(R.style.LoginTheme)
                 .setAvailableProviders(providers)
                 .setIsSmartLockEnabled(false, true)
                 .build();
@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
         IdpResponse response = result.getIdpResponse();
+        Log.e("onSignInResult",result.getResultCode().toString());
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
