@@ -112,8 +112,23 @@
             app:layout_constraintTop_toBottomOf="@id/place_detail_button_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/place_detail_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            app:layout_constraintTop_toBottomOf="@id/place_detail_divider"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/workmateJoiningList"
+            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/workmate_joining_item"
+            tools:itemCount="3"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

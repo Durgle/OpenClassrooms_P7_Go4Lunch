@@ -6,13 +6,13 @@
     android:id="@+id/drawerMenu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".LoginActivity"
     tools:openDrawer="end">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".LoginActivity">
 
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -34,6 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="?attr/actionBarSize"
+                    tools:title="@string/main_activity_top_app_bar"
                     app:title="@string/main_activity_top_app_bar"
                     app:menu="@menu/top_app_bar"
                     app:navigationIcon="@drawable/baseline_menu_24"
@@ -68,6 +69,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

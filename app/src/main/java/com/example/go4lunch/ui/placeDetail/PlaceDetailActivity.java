@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.go4lunch.R;
 import com.example.go4lunch.data.models.map.Place;
 import com.example.go4lunch.databinding.ActivityPlaceDetailBinding;
+import com.example.go4lunch.databinding.ActivityPlaceDetailContentBinding;
 import com.example.go4lunch.databinding.FragmentPlaceListBinding;
 import com.example.go4lunch.injection.ViewModelFactory;
 
@@ -21,6 +22,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
     public static final String PLACE_ID = "place_id";
     private ActivityPlaceDetailBinding binding;
+    private WorkmateRecyclerViewAdapter adapter;
     private PlaceDetailViewModel viewModel;
 
     public static void startActivity(Context context, @NonNull String placeId) {
@@ -35,6 +37,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
         this.binding = ActivityPlaceDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         this.viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(PlaceDetailViewModel.class);
+        this.adapter = new WorkmateRecyclerViewAdapter();
+        viewModel.getWorkmateJoining().observe(this, list -> adapter.submitList(list));
+        binding.detailPlaceContent.workmateJoiningList.setAdapter(adapter);
         this.viewModel.getPlace().observe(this, place -> {
             if(place != null){
                 binding.detailPlaceContent.placeDetailName.setText(place.getName());

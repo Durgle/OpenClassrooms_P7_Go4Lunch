@@ -51,7 +51,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:src="@drawable/vault_boy"
                 tools:src="@drawable/vault_boy"/>
 
             <TextView
@@ -65,7 +64,6 @@
                 app:layout_constraintStart_toEndOf="@+id/drawerAvatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="?attr/colorOnSurface"
-                android:text="@string/tools_user_name"
                 tools:text="@string/tools_user_name" />
 
             <TextView
@@ -82,7 +80,6 @@
                 app:layout_constraintStart_toEndOf="@+id/drawerAvatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="?attr/colorOnSurface"
-                android:text="@string/tools_user_email"
                 tools:text="@string/tools_user_email" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

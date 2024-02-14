@@ -49,16 +49,19 @@ public class GoogleMapRepository {
             mGoogleMapApi.getNearbyPlace(location,1500,"restaurant",mApiKey).enqueue(new Callback<NearbySearchResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<NearbySearchResponse> call, @NonNull Response<NearbySearchResponse> response) {
+                    Log.e("GoogleMapRepository",response.toString());
                     if (response.body() != null && response.isSuccessful()) {
 
                         nearbyPlaceFetchedResponses.put(location, response.body());
                         placesLiveData.setValue(response.body().getPlaces());
+                    } else {
+                        Log.e("GoogleMapRepository",response.message()+" responseCode:"+response.code());
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<NearbySearchResponse> call, @NonNull Throwable t) {
-                    t.printStackTrace();
+                    Log.e("GoogleMapRepository",t.toString());
                     placesLiveData.setValue(null);
                 }
             });
@@ -82,14 +85,14 @@ public class GoogleMapRepository {
                     if (response.body() != null && response.isSuccessful()) {
                         placeDetailFetchedResponses.put(placeId, response.body());
                         placesLiveData.setValue(response.body().getPlace());
-                        Log.e("GoogleMapRepository",response.body().toString());
                     } else {
-                        Log.e("GoogleMapRepository",placeId+' '+response.message()+' '+response.code());
+                        Log.e("GoogleMapRepository",response.message()+" responseCode:"+response.code());
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<PlacesDetailsResponse> call, @NonNull Throwable t) {
+                    Log.e("GoogleMapRepository",t.toString());
                     placesLiveData.setValue(null);
                 }
             });

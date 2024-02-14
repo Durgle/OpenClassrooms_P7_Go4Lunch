@@ -4,7 +4,7 @@
     <item
         android:id="@+id/your_lunch"
         android:icon="@drawable/baseline_restaurant_menu_24"
-        android:title="@string/drawer_tour_lunch"
+        android:title="@string/drawer_your_lunch"
         android:checkable="true"
         app:showAsAction="ifRoom"/>
     <item

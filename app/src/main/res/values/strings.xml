@@ -6,7 +6,7 @@
     <string name="menu_map_view">Map View</string>
     <string name="menu_list_view">List View</string>
     <string name="menu_workmates">Workmates</string>
-    <string name="drawer_tour_lunch">Your lunch</string>
+    <string name="drawer_your_lunch">Your lunch</string>
     <string name="drawer_settings">Settings</string>
     <string name="drawer_logout">Logout</string>
     <string name="place_photo">Place photo</string>
@@ -22,5 +22,10 @@
     <string name="tools_place_participant">(2)</string>
     <string name="tools_place_status">Open</string>
     <string name="tools_place_distance">120m</string>
-
+    <string name="tools_workmate_place">Scarlett is eating french (Le Zinc)</string>
+    <string name="tools_workmate_joining">Scarlett is joining!</string>
+    <string name="workmate_picture">Workmate Picture</string>
+    <string name="workmate_place">%1$s is eating at %2$s</string>
+    <string name="workmate_joining">%1$s is joining!</string>
+    <string name="workmate_place_empty">%1$s hasn\'t decided yet</string>
 </resources>
