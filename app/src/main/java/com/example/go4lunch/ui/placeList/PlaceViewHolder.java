@@ -23,7 +23,7 @@ public class PlaceViewHolder extends RecyclerView.ViewHolder {
         binding.placeName.setText(place.getName());
         binding.placeAddress.setText(place.getAddress());
         binding.placeDistance.setText(place.getDistance());
-        binding.placeStatus.setText(place.getStatus());
+        binding.placeStatus.setText(place.getStatus(itemView.getContext()));
         binding.placeRating.setText(place.getRating());
         Glide.with(itemView.getContext())
                 .load(place.getPhoto() != null ? place.getPhoto() : R.drawable.no_photos)

@@ -15,14 +15,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -43,18 +47,13 @@ public class UserRepository {
     @NonNull
     private final FirebaseAuth firebaseAuth;
 
-    private final MutableLiveData<User> currentUser = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> logged = new MutableLiveData<>();
-    private final MutableLiveData<List<User>> userList = new MutableLiveData<>();
-    private final MutableLiveData<List<User>> placeUserList = new MutableLiveData<>();
-
     public UserRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull AuthUI authUI, @NonNull FirebaseAuth firebaseAuth) {
         this.firebaseFirestore = firebaseFirestore;
         this.authUI = authUI;
         this.firebaseAuth = firebaseAuth;
     }
 
-    private CollectionReference getUsersCollection(){
+    private CollectionReference getUsersCollection() {
         return firebaseFirestore.collection(COLLECTION_NAME);
     }
 
@@ -68,96 +67,120 @@ public class UserRepository {
         return (user != null) ? user.getUid() : null;
     }
 
-    public void signOut(Context context) {
+    public LiveData<Boolean> signOut(Context context) {
+        MutableLiveData<Boolean> logged = new MutableLiveData<>(false);
         authUI.signOut(context)
-                .addOnSuccessListener( result -> logged.setValue(false))
-                .addOnFailureListener(e -> Log.e("UserRepository",e.toString()));
-    }
-
-    public LiveData<Boolean> isLogged() {
+                .addOnSuccessListener(result -> logged.setValue(true))
+                .addOnFailureListener(e -> Log.e("UserRepository", e.toString()));
         return logged;
     }
 
     public void createOrUpdateUser() {
         FirebaseUser user = getCurrentUser();
-        if(user != null){
-            logged.setValue(true);
+        if (user != null) {
 
             String urlPicture = (user.getPhotoUrl() != null) ? user.getPhotoUrl().toString() : null;
             String email = user.getEmail();
             String displayName = user.getDisplayName();
             String uid = user.getUid();
 
-            Task<DocumentSnapshot> userData =  this.getUsersCollection().document(uid).get();
+            Task<DocumentSnapshot> userData = this.getUsersCollection().document(uid).get();
             userData.addOnSuccessListener(
                     documentSnapshot -> {
-                        if(documentSnapshot.exists()){
+                        if (documentSnapshot.exists()) {
                             Map<String, Object> updates = new HashMap<>();
                             updates.put(EMAIL_FIELD, email);
                             updates.put(DISPLAY_NAME_FIELD, displayName);
                             updates.put(URL_PICTURE_FIELD, urlPicture);
-                            this.getUsersCollection().document(uid).update(updates)
-                                    .addOnSuccessListener(result -> getUserData());
+                            this.getUsersCollection().document(uid).update(updates);
                         } else {
-                            User userToCreate = new User(uid, displayName, email,urlPicture);
-                            this.getUsersCollection().document(uid).set(userToCreate)
-                                    .addOnSuccessListener(result -> getUserData());
+                            User userToCreate = new User(uid, displayName, email, urlPicture);
+                            this.getUsersCollection().document(uid).set(userToCreate);
                         }
                     }
-            ).addOnFailureListener(e -> Log.e("UserRepository",e.toString()));
+            ).addOnFailureListener(e -> Log.e("UserRepository", e.toString()));
         }
     }
 
-    public LiveData<User> getUserData(){
+    public LiveData<User> getUserData() {
         String uid = this.getCurrentUserUID();
-        if(uid != null){
-            Task<DocumentSnapshot> userData =  this.getUsersCollection().document(uid).get();
-            userData.continueWith(task -> task.getResult().toObject(User.class))
-                    .addOnSuccessListener(currentUser::setValue)
-                    .addOnFailureListener(e -> Log.e("UserRepository", e.toString()));
+        MutableLiveData<User> userData = new MutableLiveData<>();
+        if (uid != null) {
+
+            this.getUsersCollection().document(uid)
+                    .addSnapshotListener((documentSnapshot, error) -> {
+                        if (error != null) {
+                            Log.e("UserRepository", error.toString());
+                        }
+
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
+                            User user = documentSnapshot.toObject(User.class);
+                            userData.setValue(user);
+                        } else {
+                            userData.setValue(null);
+                        }
+                    });
         } else {
-            currentUser.setValue(null);
+            userData.setValue(null);
         }
 
-        return currentUser;
+        return userData;
     }
 
-    public LiveData<List<User>> getAllUser(){
+    public LiveData<List<User>> getAllUser() {
         String uid = this.getCurrentUserUID();
-        if(uid != null){
-            this.getUsersCollection().whereNotEqualTo(ID_FIELD, uid).get()
-                    .addOnSuccessListener(querySnapshots -> {
-                        List<User> userList = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : querySnapshots) {
-                            User user = document.toObject(User.class);
-                            userList.add(user);
+        MutableLiveData<List<User>> users = new MutableLiveData<>();
+        if (uid != null) {
+            this.getUsersCollection().whereNotEqualTo(ID_FIELD, uid)
+                    .addSnapshotListener((querySnapshots, error) -> {
+                        if (error != null) {
+                            Log.e("UserRepository", error.toString());
                         }
-                        this.userList.setValue(userList);
-                    })
-                    .addOnFailureListener(e -> Log.e("UserRepository", e.toString()));
-        }else{
-            this.userList.setValue(new ArrayList<>());
+
+                        List<User> userList = new ArrayList<>();
+                        if (querySnapshots != null) {
+                            for (QueryDocumentSnapshot document : querySnapshots) {
+                                User user = document.toObject(User.class);
+                                userList.add(user);
+                            }
+                        }
+                        List<User> sortedUser = userList.stream()
+                                .sorted(Comparator.comparing((User user) -> user.getPlace() != null ? 0 : 1)
+                                        .thenComparing(User::getDisplayName))
+                                .collect(Collectors.toList());
+                        users.setValue(sortedUser);
+                    });
+        } else {
+            users.setValue(new ArrayList<>());
         }
-        return this.userList;
+        return users;
     }
 
-    public LiveData<List<User>> getUserForPlace(@NonNull String placeId){
+    public LiveData<List<User>> getWorkmatesForPlace(@NonNull String placeId) {
         String uid = this.getCurrentUserUID();
-        if(uid != null){
-            this.getUsersCollection().whereEqualTo(PLACE_ID_FIELD, placeId).get()
-                    .addOnSuccessListener(querySnapshots -> {
-                        List<User> userList = new ArrayList<>();
-                        for (QueryDocumentSnapshot document : querySnapshots) {
-                            User user = document.toObject(User.class);
-                            userList.add(user);
+        MutableLiveData<List<User>> users = new MutableLiveData<>();
+        if (uid != null) {
+            this.getUsersCollection()
+                    .whereEqualTo(PLACE_ID_FIELD, placeId)
+                    .whereNotEqualTo(ID_FIELD, uid)
+                    .addSnapshotListener((querySnapshots, error) -> {
+                        if (error != null) {
+                            Log.e("UserRepository", error.toString());
                         }
-                        this.placeUserList.setValue(userList);
-                    })
-                    .addOnFailureListener(e -> Log.e("UserRepository", e.toString()));
-        }else{
-            this.placeUserList.setValue(new ArrayList<>());
+
+                        List<User> userList = new ArrayList<>();
+                        if (querySnapshots != null) {
+                            for (QueryDocumentSnapshot document : querySnapshots) {
+                                User user = document.toObject(User.class);
+                                userList.add(user);
+                            }
+                        }
+                        users.setValue(userList);
+                    });
+        } else {
+            users.setValue(new ArrayList<>());
         }
-        return this.placeUserList;
+        return users;
     }
 
 }

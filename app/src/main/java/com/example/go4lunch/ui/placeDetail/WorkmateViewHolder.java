@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.go4lunch.R;
 import com.example.go4lunch.databinding.WorkmateJoiningItemBinding;
+import com.example.go4lunch.ui.placeDetail.viewState.WorkmateState;
 
 public class WorkmateViewHolder extends RecyclerView.ViewHolder {
 
@@ -21,7 +22,7 @@ public class WorkmateViewHolder extends RecyclerView.ViewHolder {
         this.context = binding.getRoot().getContext();
     }
 
-    public void bind(@NonNull WorkmateViewState workmate) {
+    public void bind(@NonNull WorkmateState workmate) {
         Glide.with(context)
                 .load(workmate.getPicture() != null ? workmate.getPicture() : R.drawable.blank_profile)
                 .into(binding.workmateJoiningPicture);

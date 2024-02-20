@@ -64,7 +64,7 @@
                 app:layout_constraintStart_toEndOf="@+id/drawerAvatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="?attr/colorOnSurface"
-                tools:text="@string/tools_user_name" />
+                tools:text="I\'m Hungry!" />
 
             <TextView
                 android:id="@+id/drawerUserEmail"
@@ -80,7 +80,7 @@
                 app:layout_constraintStart_toEndOf="@+id/drawerAvatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="?attr/colorOnSurface"
-                tools:text="@string/tools_user_email" />
+                tools:text="jsmith.1337@gmail.com" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>

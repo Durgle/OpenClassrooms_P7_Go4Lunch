@@ -27,16 +27,15 @@ public class GoogleMapRepository {
 
     private final Map<String, NearbySearchResponse> nearbyPlaceFetchedResponses = new HashMap<>();
     private final Map<String, PlacesDetailsResponse> placeDetailFetchedResponses = new HashMap<>();
-
-    private String mApiKey;
+    private final String apiKey;
 
     public GoogleMapRepository(GoogleMapApi googleMapApi) {
 
         mGoogleMapApi = googleMapApi;
-        mApiKey = BuildConfig.MAPS_API_KEY;
+        apiKey = BuildConfig.MAPS_API_KEY;
     }
 
-    public LiveData<List<Place>> getNearbyPlaceLiveData(double latitude,double longitude) {
+    public LiveData<List<Place>> getNearbyPlaceLiveData(double latitude, double longitude) {
 
         MutableLiveData<List<Place>> placesLiveData = new MutableLiveData<>();
         String location = latitude + "," + longitude;
@@ -46,22 +45,20 @@ public class GoogleMapRepository {
             placesLiveData.setValue(response.getPlaces());
         } else {
 
-            mGoogleMapApi.getNearbyPlace(location,1500,"restaurant",mApiKey).enqueue(new Callback<NearbySearchResponse>() {
+            mGoogleMapApi.getNearbyPlace(location, 1500, "restaurant", apiKey).enqueue(new Callback<NearbySearchResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<NearbySearchResponse> call, @NonNull Response<NearbySearchResponse> response) {
-                    Log.e("GoogleMapRepository",response.toString());
                     if (response.body() != null && response.isSuccessful()) {
-
                         nearbyPlaceFetchedResponses.put(location, response.body());
                         placesLiveData.setValue(response.body().getPlaces());
                     } else {
-                        Log.e("GoogleMapRepository",response.message()+" responseCode:"+response.code());
+                        Log.e("GoogleMapRepository", response.message() + " responseCode:" + response.code());
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<NearbySearchResponse> call, @NonNull Throwable t) {
-                    Log.e("GoogleMapRepository",t.toString());
+                    Log.e("GoogleMapRepository", t.toString());
                     placesLiveData.setValue(null);
                 }
             });
@@ -70,7 +67,7 @@ public class GoogleMapRepository {
         return placesLiveData;
     }
 
-    public LiveData<Place> getPlaceDetailsLiveData(@NonNull String placeId,@Nullable String language) {
+    public LiveData<Place> getPlaceDetailsLiveData(@NonNull String placeId, @Nullable String language) {
 
         MutableLiveData<Place> placesLiveData = new MutableLiveData<>();
         PlacesDetailsResponse response = placeDetailFetchedResponses.get(placeId);
@@ -79,20 +76,20 @@ public class GoogleMapRepository {
             placesLiveData.setValue(response.getPlace());
         } else {
 
-            mGoogleMapApi.getPlaceDetails(placeId,language,mApiKey).enqueue(new Callback<PlacesDetailsResponse>() {
+            mGoogleMapApi.getPlaceDetails(placeId, language, apiKey).enqueue(new Callback<PlacesDetailsResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<PlacesDetailsResponse> call, @NonNull Response<PlacesDetailsResponse> response) {
                     if (response.body() != null && response.isSuccessful()) {
                         placeDetailFetchedResponses.put(placeId, response.body());
                         placesLiveData.setValue(response.body().getPlace());
                     } else {
-                        Log.e("GoogleMapRepository",response.message()+" responseCode:"+response.code());
+                        Log.e("GoogleMapRepository", response.message() + " responseCode:" + response.code());
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<PlacesDetailsResponse> call, @NonNull Throwable t) {
-                    Log.e("GoogleMapRepository",t.toString());
+                    Log.e("GoogleMapRepository", t.toString());
                     placesLiveData.setValue(null);
                 }
             });

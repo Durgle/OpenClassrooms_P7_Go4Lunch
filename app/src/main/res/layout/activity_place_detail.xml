@@ -50,7 +50,7 @@
    <include android:id="@+id/detail_place_content" layout="@layout/activity_place_detail_content" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/choose_restaurant_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/fab_margin"

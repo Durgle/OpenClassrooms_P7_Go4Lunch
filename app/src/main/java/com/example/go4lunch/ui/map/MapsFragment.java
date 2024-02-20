@@ -1,5 +1,8 @@
 package com.example.go4lunch.ui.map;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -9,6 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,9 +44,9 @@ import java.net.URL;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private GoogleMap map;
     private FragmentMapsBinding binding;
-    private MapViewModel mViewModel;
+    private MapViewModel viewModel;
 
     public static MapsFragment newInstance() {
         return new MapsFragment();
@@ -51,7 +55,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MapViewModel.class);
+        viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MapViewModel.class);
     }
 
     @Override
@@ -75,10 +79,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
      */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
-        requestPermission();
+        map = googleMap;
+
+        if(ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION) == PERMISSION_GRANTED){
+            map.setMyLocationEnabled(true);
+        } else {
+            requestPermission();
+        }
+
         try {
-            boolean success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
+            boolean success = map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
 
             if (!success) {
                 Log.e("MapsFragment", "Style parsing failed.");
@@ -87,27 +97,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             Log.e("MapsFragment", "Can't find style. Error: ", e);
         }
 
-        mViewModel.getCurrentLocation().observe(getViewLifecycleOwner(),new Observer<Location>() {
+        viewModel.getCurrentLocation().observe(getViewLifecycleOwner(),new Observer<Location>() {
             @Override
             public void onChanged(Location location) {
                 if(location != null){
                     LatLng position = new LatLng(location.getLatitude(),location.getLongitude());
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.0f));
-                    mViewModel.getCurrentLocation().removeObserver(this);
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.0f));
+                    viewModel.getCurrentLocation().removeObserver(this);
                 }
             }
         });
 
-        mViewModel.getNearbyPlaces().observe(getViewLifecycleOwner(),placeList -> {
+        viewModel.getNearbyPlaces().observe(getViewLifecycleOwner(),placeList -> {
             for (Place place : placeList) {
                 MarkerOptions marker = createMarker(place);
                 if(marker != null) {
-                    mMap.addMarker(marker);
+                    map.addMarker(marker);
                 }
             }
         });
 
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        map.getUiSettings().setZoomControlsEnabled(true);
     }
 
     public void requestPermission(){
@@ -136,6 +146,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
 
-        mViewModel.refresh();
+        viewModel.refresh();
     }
 }

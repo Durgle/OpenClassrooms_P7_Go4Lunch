@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Go4Lunch</string>
-    <string name="title_activity_maps">MapsActivity</string>
     <string name="app_bar_search">Search</string>
     <string name="main_activity_top_app_bar">I\'m Hungry!</string>
     <string name="menu_map_view">Map View</string>
@@ -10,20 +9,12 @@
     <string name="drawer_settings">Settings</string>
     <string name="drawer_logout">Logout</string>
     <string name="place_photo">Place photo</string>
+    <string name="place_status_open">Open</string>
+    <string name="place_status_close">Close</string>
     <string name="button_choice_restaurant">Choose this restaurant</string>
-    <string name="tab_item_call">CALL</string>
-    <string name="tab_item_like">LIKE</string>
-    <string name="tab_item_website">WEBSITE</string>
-    <string name="tools_user_name">I\'m Hungry!</string>
-    <string name="tools_user_email">jsmith.1337@gmail.com</string>
-    <string name="tools_place_name">Le Zinc</string>
-    <string name="tools_place_address">French restaurant - 12 rue du Faubourg Poissonière</string>
-    <string name="tools_place_rating">★★★</string>
-    <string name="tools_place_participant">(2)</string>
-    <string name="tools_place_status">Open</string>
-    <string name="tools_place_distance">120m</string>
-    <string name="tools_workmate_place">Scarlett is eating french (Le Zinc)</string>
-    <string name="tools_workmate_joining">Scarlett is joining!</string>
+    <string name="tab_item_call">Call</string>
+    <string name="tab_item_like">like</string>
+    <string name="tab_item_website">Website</string>
     <string name="workmate_picture">Workmate Picture</string>
     <string name="workmate_place">%1$s is eating at %2$s</string>
     <string name="workmate_joining">%1$s is joining!</string>

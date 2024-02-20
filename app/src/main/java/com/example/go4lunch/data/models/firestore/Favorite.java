@@ -6,6 +6,13 @@ public class Favorite {
     private String placeId;
     private String userId;
 
+    /**
+     * Favorite constructor
+     *
+     * @param uid Uid
+     * @param placeId Place Id
+     * @param userId User Id
+     */
     public Favorite(String uid, String placeId, String userId) {
         this.uid = uid;
         this.placeId = placeId;

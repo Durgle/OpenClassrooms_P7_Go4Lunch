@@ -1,5 +1,6 @@
 package com.example.go4lunch.ui.placeList;
 
+import android.content.Context;
 import android.location.Location;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,7 @@ public class PlaceViewState {
 
     private final String address;
 
-    private final String status;
+    private final Integer status;
 
     private final String distance;
 
@@ -61,8 +62,12 @@ public class PlaceViewState {
     }
 
     @Nullable
-    public String getStatus() {
-        return status;
+    public String getStatus(@NonNull Context context) {
+        if(status != null){
+            return context.getString(status);
+        } else {
+            return "";
+        }
     }
 
     @Nullable

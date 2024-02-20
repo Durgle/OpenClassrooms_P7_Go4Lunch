@@ -42,7 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="@string/tools_workmate_place" />
+            tools:text="Scarlett is eating french (Le Zinc)" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/place_item_divider"

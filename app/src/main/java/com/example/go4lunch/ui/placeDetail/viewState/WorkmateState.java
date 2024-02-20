@@ -1,14 +1,12 @@
-package com.example.go4lunch.ui.placeDetail;
+package com.example.go4lunch.ui.placeDetail.viewState;
 
 import androidx.annotation.NonNull;
-
-import com.example.go4lunch.data.models.firestore.Place;
 
 import java.util.Objects;
 
 import javax.annotation.Nullable;
 
-public class WorkmateViewState {
+public class WorkmateState {
 
     @NonNull
     private final String id;
@@ -17,7 +15,7 @@ public class WorkmateViewState {
     @NonNull
     private final String workmateName;
 
-    public WorkmateViewState(@NonNull String id, @NonNull String workmateName, @Nullable String picture) {
+    public WorkmateState(@NonNull String id, @NonNull String workmateName, @Nullable String picture) {
         this.id = id;
         this.picture = picture;
         this.workmateName = workmateName;
@@ -42,7 +40,7 @@ public class WorkmateViewState {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WorkmateViewState that = (WorkmateViewState) o;
+        WorkmateState that = (WorkmateState) o;
         return Objects.equals(id, that.id) && Objects.equals(picture, that.picture) && Objects.equals(workmateName, that.workmateName);
     }
 

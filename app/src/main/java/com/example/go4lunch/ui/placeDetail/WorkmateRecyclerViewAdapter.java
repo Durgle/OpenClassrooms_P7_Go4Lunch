@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.ui.placeDetail.viewState.WorkmateState;
 
-public class WorkmateRecyclerViewAdapter extends ListAdapter<WorkmateViewState, WorkmateViewHolder> {
+public class WorkmateRecyclerViewAdapter extends ListAdapter<WorkmateState, WorkmateViewHolder> {
 
     protected WorkmateRecyclerViewAdapter() {
         super(DIFF_CALLBACK);
@@ -29,14 +30,14 @@ public class WorkmateRecyclerViewAdapter extends ListAdapter<WorkmateViewState, 
         holder.bind(getItem(position));
     }
 
-    public static final DiffUtil.ItemCallback<WorkmateViewState> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<WorkmateViewState>() {
+    public static final DiffUtil.ItemCallback<WorkmateState> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<WorkmateState>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull WorkmateViewState oldWorkmate, @NonNull WorkmateViewState newWorkmate) {
+                public boolean areItemsTheSame(@NonNull WorkmateState oldWorkmate, @NonNull WorkmateState newWorkmate) {
                     return oldWorkmate.getId().equals(newWorkmate.getId());
                 }
                 @Override
-                public boolean areContentsTheSame(@NonNull WorkmateViewState oldWorkmate, @NonNull WorkmateViewState newWorkmate) {
+                public boolean areContentsTheSame(@NonNull WorkmateState oldWorkmate, @NonNull WorkmateState newWorkmate) {
                     return oldWorkmate.equals(newWorkmate);
                 }
             };

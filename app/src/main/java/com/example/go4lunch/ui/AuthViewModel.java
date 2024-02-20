@@ -32,12 +32,8 @@ public class AuthViewModel extends ViewModel {
         return this.userRepository.getUserData();
     }
 
-    public LiveData<Boolean> isLogged(){
-        return this.userRepository.isLogged();
-    }
-
-    public void logout(Context context){
-        this.userRepository.signOut(context);
+    public LiveData<Boolean> logout(Context context){
+        return this.userRepository.signOut(context);
     }
 
 }

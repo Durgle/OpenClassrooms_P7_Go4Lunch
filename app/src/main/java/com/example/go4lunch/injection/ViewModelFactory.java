@@ -12,6 +12,8 @@ import androidx.lifecycle.viewmodel.CreationExtras;
 import com.example.go4lunch.MainApplication;
 import com.example.go4lunch.data.PermissionChecker;
 import com.example.go4lunch.data.RetrofitService;
+import com.example.go4lunch.data.models.firestore.Favorite;
+import com.example.go4lunch.data.services.FavoriteRepository;
 import com.example.go4lunch.data.services.GoogleMapRepository;
 import com.example.go4lunch.data.services.LocationRepository;
 import com.example.go4lunch.data.services.UserRepository;
@@ -42,6 +44,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
     private final UserRepository userRepository;
 
+    @NonNull
+    private final FavoriteRepository favoriteRepository;
+
     public static ViewModelFactory getInstance() {
         if (factory == null) {
             synchronized (ViewModelFactory.class) {
@@ -53,7 +58,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
                         new LocationRepository(
                             LocationServices.getFusedLocationProviderClient(application)
                         ),
-                        new UserRepository(FirebaseFirestore.getInstance(), AuthUI.getInstance(), FirebaseAuth.getInstance())
+                        new UserRepository(FirebaseFirestore.getInstance(), AuthUI.getInstance(), FirebaseAuth.getInstance()),
+                        new FavoriteRepository(FirebaseFirestore.getInstance(), AuthUI.getInstance(), FirebaseAuth.getInstance())
                     );
                 }
             }
@@ -65,12 +71,14 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             @NonNull GoogleMapRepository googleMapRepository,
             @NonNull PermissionChecker permissionChecker,
             @NonNull LocationRepository locationRepository,
-            @NonNull UserRepository userRepository
+            @NonNull UserRepository userRepository,
+            @NonNull FavoriteRepository favoriteRepository
     ) {
         this.googleMapRepository = googleMapRepository;
         this.permissionChecker = permissionChecker;
         this.locationRepository = locationRepository;
         this.userRepository = userRepository;
+        this.favoriteRepository = favoriteRepository;
     }
 
     @SuppressWarnings("unchecked")
@@ -94,7 +102,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(PlaceDetailViewModel.class)) {
             SavedStateHandle savedStateHandle = SavedStateHandleSupport.createSavedStateHandle(extras);
             String placeId = savedStateHandle.get(PlaceDetailActivity.PLACE_ID);
-            return (T) new PlaceDetailViewModel(this.googleMapRepository,this.userRepository,placeId);
+            return (T) new PlaceDetailViewModel(this.googleMapRepository,this.userRepository,this.favoriteRepository,placeId);
         }
         if (modelClass.isAssignableFrom(AuthViewModel.class)) {
             return (T) new AuthViewModel(this.userRepository);

@@ -96,8 +96,11 @@ public class AppActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.logout) {
-                viewModel.logout(AppActivity.this);
-                redirectToLogin();
+                viewModel.logout(AppActivity.this).observe(this, result -> {
+                    if(result) {
+                        redirectToLogin();
+                    }
+                });
             }
             return true;
         });
