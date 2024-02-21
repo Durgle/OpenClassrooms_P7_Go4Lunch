@@ -17,6 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import javax.annotation.Nullable;
 
+/**
+ * Manage favorite
+ */
 public class FavoriteRepository {
 
     private static final String COLLECTION_NAME = "favorites";
@@ -37,20 +40,40 @@ public class FavoriteRepository {
         this.firebaseAuth = firebaseAuth;
     }
 
+    /**
+     * Get favorite collection from firestore
+     *
+     * @return Favorite collection
+     */
     private CollectionReference getFavoriteCollection() {
         return firebaseFirestore.collection(COLLECTION_NAME);
     }
 
+    /**
+     * Get current user authenticated
+     *
+     * @return Current user
+     */
     @Nullable
     public FirebaseUser getCurrentUser() {
         return firebaseAuth.getCurrentUser();
     }
 
+    /**
+     * Get current user uid
+     *
+     * @return User uid
+     */
     public String getCurrentUserUID() {
         FirebaseUser user = getCurrentUser();
         return (user != null) ? user.getUid() : null;
     }
 
+    /**
+     * Add the given place to current user favorite if not exist and remove if the favorite exist
+     *
+     * @param placeId Place id
+     */
     public void togglePlaceLike(@NonNull String placeId) {
         String userId = this.getCurrentUserUID();
 
@@ -62,7 +85,6 @@ public class FavoriteRepository {
                         if (documentSnapshot.exists()) {
                             Boolean currentValue = documentSnapshot.getBoolean(VALUE_FIELD);
                             this.getFavoriteCollection().document(uid).delete();
-                            //this.getFavoriteCollection().document(uid).update(VALUE_FIELD, currentValue == null || !currentValue);
                         } else {
                             Favorite favorite = new Favorite(uid, placeId , userId);
                             this.getFavoriteCollection().document(uid).set(favorite);
@@ -72,6 +94,12 @@ public class FavoriteRepository {
         }
     }
 
+    /**
+     * Check if the current user has the given place in favorites
+     *
+     * @param placeId Place Id
+     * @return Favorite status live data
+     */
     public LiveData<Boolean> isLike(@NonNull String placeId) {
         String userId = this.getCurrentUserUID();
         MutableLiveData<Boolean> isLike = new MutableLiveData<>();

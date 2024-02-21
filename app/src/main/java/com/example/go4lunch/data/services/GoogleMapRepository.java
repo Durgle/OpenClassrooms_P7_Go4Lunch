@@ -21,10 +21,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Manage call to google map api
+ */
 public class GoogleMapRepository {
 
     private final GoogleMapApi mGoogleMapApi;
-
     private final Map<String, NearbySearchResponse> nearbyPlaceFetchedResponses = new HashMap<>();
     private final Map<String, PlacesDetailsResponse> placeDetailFetchedResponses = new HashMap<>();
     private final String apiKey;
@@ -35,6 +37,13 @@ public class GoogleMapRepository {
         apiKey = BuildConfig.MAPS_API_KEY;
     }
 
+    /**
+     * Get all nearby place
+     *
+     * @param latitude Latitude
+     * @param longitude Longitude
+     * @return List of place live data
+     */
     public LiveData<List<Place>> getNearbyPlaceLiveData(double latitude, double longitude) {
 
         MutableLiveData<List<Place>> placesLiveData = new MutableLiveData<>();
@@ -67,6 +76,13 @@ public class GoogleMapRepository {
         return placesLiveData;
     }
 
+    /**
+     * Get all information for the given place
+     *
+     * @param placeId Place id
+     * @param language Language
+     * @return Place Detail live data
+     */
     public LiveData<Place> getPlaceDetailsLiveData(@NonNull String placeId, @Nullable String language) {
 
         MutableLiveData<Place> placesLiveData = new MutableLiveData<>();

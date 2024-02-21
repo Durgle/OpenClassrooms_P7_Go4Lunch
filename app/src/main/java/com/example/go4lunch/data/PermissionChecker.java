@@ -8,6 +8,9 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
+/**
+ * Check permission
+ */
 public class PermissionChecker {
 
     @NonNull
@@ -17,6 +20,11 @@ public class PermissionChecker {
         this.application = application;
     }
 
+    /**
+     * Check if the location permission is granted
+     *
+     * @return Location permission status
+     */
     public boolean hasLocationPermission() {
         return ContextCompat.checkSelfPermission(application, ACCESS_FINE_LOCATION) == PERMISSION_GRANTED;
     }

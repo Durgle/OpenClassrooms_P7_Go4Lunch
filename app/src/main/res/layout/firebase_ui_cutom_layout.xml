@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/appLogo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/app_logo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/emailSignInButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginVertical="8dp"
+            android:backgroundTint="@color/blue"
+            android:drawableLeft="@drawable/baseline_email_24"
+            android:drawableTint="@color/white"
+            android:text="@string/sign_in_email" />
+
+        <Button
+            android:id="@+id/googleSignInButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginVertical="8dp"
+            android:backgroundTint="@color/red"
+            android:drawableLeft="@drawable/googleg_standard_color_18"
+            android:drawableTint="@color/white"
+            android:text="@string/sign_in_google" />
+
+    </LinearLayout>
+
+</LinearLayout>

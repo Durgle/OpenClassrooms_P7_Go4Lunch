@@ -24,6 +24,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Manage current location
+ */
 public class LocationRepository {
 
     private static final int LOCATION_REQUEST_INTERVAL_MS = 10_000;
@@ -31,20 +34,26 @@ public class LocationRepository {
 
     @NonNull
     private final FusedLocationProviderClient fusedLocationProviderClient;
-
     @NonNull
     private final MutableLiveData<Location> locationMutableLiveData = new MutableLiveData<>(null);
-
     private LocationCallback callback;
 
     public LocationRepository(@NonNull FusedLocationProviderClient fusedLocationProviderClient) {
         this.fusedLocationProviderClient = fusedLocationProviderClient;
     }
 
+    /**
+     * Get the current location
+     *
+     * @return Current location live data
+     */
     public LiveData<Location> getLocationLiveData() {
         return locationMutableLiveData;
     }
 
+    /**
+     * Enable location update
+     */
     @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
     public void startLocationRequest() {
         if (callback == null) {
@@ -70,6 +79,9 @@ public class LocationRepository {
         );
     }
 
+    /**
+     * Remove location update
+     */
     public void stopLocationRequest() {
         if (callback != null) {
             fusedLocationProviderClient.removeLocationUpdates(callback);

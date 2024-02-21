@@ -12,7 +12,6 @@ import androidx.lifecycle.viewmodel.CreationExtras;
 import com.example.go4lunch.MainApplication;
 import com.example.go4lunch.data.PermissionChecker;
 import com.example.go4lunch.data.RetrofitService;
-import com.example.go4lunch.data.models.firestore.Favorite;
 import com.example.go4lunch.data.services.FavoriteRepository;
 import com.example.go4lunch.data.services.GoogleMapRepository;
 import com.example.go4lunch.data.services.LocationRepository;

@@ -1,5 +1,6 @@
 package com.example.go4lunch.utils;
 
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;

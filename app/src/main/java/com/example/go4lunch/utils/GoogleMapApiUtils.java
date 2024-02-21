@@ -59,7 +59,7 @@ public class GoogleMapApiUtils {
             int numberOfStars = (int) ((rating * 3) / 5);
 
             for (int i = 0; i < numberOfStars; i++) {
-                stars.append("\u2605");
+                stars.append("★");
             }
         }
 

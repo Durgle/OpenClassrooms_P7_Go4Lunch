@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,7 +15,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.example.go4lunch.LoginActivity;
 import com.example.go4lunch.R;
 import com.example.go4lunch.databinding.ActivityMainBinding;
 import com.example.go4lunch.databinding.HeaderNavigationDrawerBinding;
@@ -25,7 +22,6 @@ import com.example.go4lunch.injection.ViewModelFactory;
 import com.example.go4lunch.ui.map.MapsFragment;
 import com.example.go4lunch.ui.placeList.PlaceListFragment;
 import com.example.go4lunch.ui.workmate.WorkmatesFragment;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

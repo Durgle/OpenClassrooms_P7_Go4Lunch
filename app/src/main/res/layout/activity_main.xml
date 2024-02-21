@@ -6,13 +6,13 @@
     android:id="@+id/drawerMenu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
+    tools:context=".ui.LoginActivity"
     tools:openDrawer="end">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".LoginActivity">
+        tools:context=".ui.LoginActivity">
 
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout

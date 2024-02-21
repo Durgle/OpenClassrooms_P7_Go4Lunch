@@ -29,7 +29,7 @@ public class PlaceDetailViewModel extends ViewModel {
     private final MediatorLiveData<PlaceDetailViewState> placeDetailViewState = new MediatorLiveData<>();
 
     @NonNull
-    public static WorkmateState mapUser(@NonNull User user){
+    public static WorkmateState mapUser(@NonNull User user) {
         return new WorkmateState(
                 user.getUid(),
                 user.getDisplayName(),
@@ -93,12 +93,12 @@ public class PlaceDetailViewModel extends ViewModel {
             @Nullable Boolean favorite
     ) {
 
-        if(place != null && workmateList != null && user != null && favorite != null){
+        if (place != null && workmateList != null && user != null && favorite != null) {
             Boolean placeChosen = user.getPlace() != null && Objects.equals(user.getPlace().getUid(), this.placeId);
-            UserState userData = new UserState(user.getUid(),favorite,placeChosen);
+            UserState userData = new UserState(user.getUid(), favorite, placeChosen);
             PlaceState placeDetail = createPlaceDetailState(place);
             List<WorkmateState> workmatelist = workmateList.stream().map(PlaceDetailViewModel::mapUser).collect(Collectors.toList());
-            PlaceDetailViewState viewState = new PlaceDetailViewState(userData, placeDetail,workmatelist);
+            PlaceDetailViewState viewState = new PlaceDetailViewState(userData, placeDetail, workmatelist);
             placeDetailViewState.setValue(viewState);
         } else {
             placeDetailViewState.setValue(null);
@@ -107,7 +107,7 @@ public class PlaceDetailViewModel extends ViewModel {
     }
 
     @NonNull
-    private PlaceState createPlaceDetailState(@NonNull Place place){
+    private PlaceState createPlaceDetailState(@NonNull Place place) {
         return new PlaceState(
                 place.getId(),
                 place.getName(),
@@ -125,6 +125,20 @@ public class PlaceDetailViewModel extends ViewModel {
 
     public void toggleLike() {
         this.favoriteRepository.togglePlaceLike(placeId);
+    }
+
+    public void chooseRestaurant(String placeId, String placeName) {
+        PlaceDetailViewState viewState = placeDetailViewState.getValue();
+        if (viewState != null) {
+            if (viewState.getUser().isChoose()) {
+                this.userRepository.updateChosenRestaurant(null);
+            } else {
+                this.userRepository.updateChosenRestaurant(
+                        new com.example.go4lunch.data.models.firestore.Place(placeId, placeName)
+                );
+            }
+        }
+
     }
 
 }

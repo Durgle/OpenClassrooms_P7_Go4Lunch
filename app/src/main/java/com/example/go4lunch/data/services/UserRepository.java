@@ -15,11 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -68,11 +65,11 @@ public class UserRepository {
     }
 
     public LiveData<Boolean> signOut(Context context) {
-        MutableLiveData<Boolean> logged = new MutableLiveData<>(false);
+        MutableLiveData<Boolean> disconnected = new MutableLiveData<>(false);
         authUI.signOut(context)
-                .addOnSuccessListener(result -> logged.setValue(true))
-                .addOnFailureListener(e -> Log.e("UserRepository", e.toString()));
-        return logged;
+                .addOnSuccessListener(result -> disconnected.setValue(true))
+                .addOnFailureListener(e -> Log.e("UserRepository", "signOut",e));
+        return disconnected;
     }
 
     public void createOrUpdateUser() {
@@ -98,7 +95,15 @@ public class UserRepository {
                             this.getUsersCollection().document(uid).set(userToCreate);
                         }
                     }
-            ).addOnFailureListener(e -> Log.e("UserRepository", e.toString()));
+            ).addOnFailureListener(e -> Log.e("UserRepository","createOrUpdateUser",e));
+        }
+    }
+
+    public void updateChosenRestaurant(Place place) {
+        String uid = this.getCurrentUserUID();
+        if (uid != null) {
+            this.getUsersCollection().document(uid).update(PLACE_FIELD, place)
+                    .addOnFailureListener(e -> Log.e("UserRepository", "updateChosenRestaurant",e));
         }
     }
 
@@ -110,7 +115,7 @@ public class UserRepository {
             this.getUsersCollection().document(uid)
                     .addSnapshotListener((documentSnapshot, error) -> {
                         if (error != null) {
-                            Log.e("UserRepository", error.toString());
+                            Log.e("UserRepository", "getUserData",error);
                         }
 
                         if (documentSnapshot != null && documentSnapshot.exists()) {
@@ -134,7 +139,7 @@ public class UserRepository {
             this.getUsersCollection().whereNotEqualTo(ID_FIELD, uid)
                     .addSnapshotListener((querySnapshots, error) -> {
                         if (error != null) {
-                            Log.e("UserRepository", error.toString());
+                            Log.e("UserRepository", "getAllUser",error);
                         }
 
                         List<User> userList = new ArrayList<>();
@@ -165,7 +170,7 @@ public class UserRepository {
                     .whereNotEqualTo(ID_FIELD, uid)
                     .addSnapshotListener((querySnapshots, error) -> {
                         if (error != null) {
-                            Log.e("UserRepository", error.toString());
+                            Log.e("UserRepository", "getWorkmatesForPlace", error);
                         }
 
                         List<User> userList = new ArrayList<>();

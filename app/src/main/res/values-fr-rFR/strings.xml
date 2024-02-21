@@ -20,4 +20,8 @@
     <string name="workmate_place_empty">%1$s n\'a pas encore décidé</string>
     <string name="place_status_open">Ouvert</string>
     <string name="place_status_close">Fermé</string>
+    <string name="drawer_background">Image de fond du menu latéral</string>
+    <string name="sign_in_email">Connexion par Email</string>
+    <string name="sign_in_google">Connexion avec Google</string>
+    <string name="app_logo">Logo de l\'application</string>
 </resources>

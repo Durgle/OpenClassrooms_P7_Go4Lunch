@@ -2,6 +2,9 @@ package com.example.go4lunch.ui.placeDetail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -53,7 +56,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
             if (viewState != null) {
                 fillWorkmateData(viewState.getWorkmates());
                 fillPlaceData(viewState.getPlace());
-                fillUserData(viewState.getUser());
+                fillUserData(viewState.getUser(),viewState.getPlace());
             }
         });
     }
@@ -63,22 +66,21 @@ public class PlaceDetailActivity extends AppCompatActivity {
      *
      * @param userState User data
      */
-    private void fillUserData(UserState userState) {
+    private void fillUserData(UserState userState, PlaceState placeState) {
 
-        binding.detailPlaceContent.placeDetailLikeButton.setOnClickListener(view -> {
-            this.viewModel.toggleLike();
-        });
-
-        if (userState.isLike()) {
-            binding.chooseRestaurantFab.setBackgroundColor(getResources().getColor(R.color.green));
-        } else {
-            binding.chooseRestaurantFab.setBackgroundColor(getResources().getColor(R.color.yellow));
-        }
+        binding.detailPlaceContent.placeDetailLikeButton.setOnClickListener(view -> this.viewModel.toggleLike());
+        binding.chooseRestaurantFab.setOnClickListener(view -> this.viewModel.chooseRestaurant(placeState.getId(),placeState.getName()));
 
         if (userState.isChoose()) {
+            binding.chooseRestaurantFab.setColorFilter(getResources().getColor(R.color.green));
+        } else {
+            binding.chooseRestaurantFab.setColorFilter(getResources().getColor(R.color.lightGrey));
+        }
+
+        if (userState.isLike()) {
             ViewUtils.setTextViewDrawableColor(binding.detailPlaceContent.placeDetailLikeButton, R.color.yellow);
         } else {
-            ViewUtils.setTextViewDrawableColor(binding.detailPlaceContent.placeDetailLikeButton, R.color.red);
+           ViewUtils.setTextViewDrawableColor(binding.detailPlaceContent.placeDetailLikeButton, R.color.red);
         }
     }
 
