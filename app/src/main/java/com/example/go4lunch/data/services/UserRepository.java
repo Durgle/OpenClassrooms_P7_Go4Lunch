@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.go4lunch.data.models.firestore.Place;
 import com.example.go4lunch.data.models.firestore.User;
+import com.example.go4lunch.utils.SingleLiveEvent;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,11 +65,14 @@ public class UserRepository {
         return (user != null) ? user.getUid() : null;
     }
 
-    public LiveData<Boolean> signOut(Context context) {
-        MutableLiveData<Boolean> disconnected = new MutableLiveData<>(false);
+    public SingleLiveEvent<Boolean> signOut(Context context) {
+        SingleLiveEvent<Boolean> disconnected = new SingleLiveEvent<>();
         authUI.signOut(context)
                 .addOnSuccessListener(result -> disconnected.setValue(true))
-                .addOnFailureListener(e -> Log.e("UserRepository", "signOut",e));
+                .addOnFailureListener(e -> {
+                    Log.e("UserRepository", "signOut", e);
+                    disconnected.setValue(false);
+                });
         return disconnected;
     }
 
@@ -95,7 +99,7 @@ public class UserRepository {
                             this.getUsersCollection().document(uid).set(userToCreate);
                         }
                     }
-            ).addOnFailureListener(e -> Log.e("UserRepository","createOrUpdateUser",e));
+            ).addOnFailureListener(e -> Log.e("UserRepository", "createOrUpdateUser", e));
         }
     }
 
@@ -103,7 +107,7 @@ public class UserRepository {
         String uid = this.getCurrentUserUID();
         if (uid != null) {
             this.getUsersCollection().document(uid).update(PLACE_FIELD, place)
-                    .addOnFailureListener(e -> Log.e("UserRepository", "updateChosenRestaurant",e));
+                    .addOnFailureListener(e -> Log.e("UserRepository", "updateChosenRestaurant", e));
         }
     }
 
@@ -115,7 +119,7 @@ public class UserRepository {
             this.getUsersCollection().document(uid)
                     .addSnapshotListener((documentSnapshot, error) -> {
                         if (error != null) {
-                            Log.e("UserRepository", "getUserData",error);
+                            Log.e("UserRepository", "getUserData", error);
                         }
 
                         if (documentSnapshot != null && documentSnapshot.exists()) {
@@ -132,14 +136,14 @@ public class UserRepository {
         return userData;
     }
 
-    public LiveData<List<User>> getAllUser() {
+    public LiveData<List<User>> getAllWorkmates() {
         String uid = this.getCurrentUserUID();
         MutableLiveData<List<User>> users = new MutableLiveData<>();
         if (uid != null) {
             this.getUsersCollection().whereNotEqualTo(ID_FIELD, uid)
                     .addSnapshotListener((querySnapshots, error) -> {
                         if (error != null) {
-                            Log.e("UserRepository", "getAllUser",error);
+                            Log.e("UserRepository", "getAllWorkmates", error);
                         }
 
                         List<User> userList = new ArrayList<>();

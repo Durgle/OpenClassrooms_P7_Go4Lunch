@@ -83,7 +83,6 @@ public class FavoriteRepository {
             favoritePlace.addOnSuccessListener(
                     documentSnapshot -> {
                         if (documentSnapshot.exists()) {
-                            Boolean currentValue = documentSnapshot.getBoolean(VALUE_FIELD);
                             this.getFavoriteCollection().document(uid).delete();
                         } else {
                             Favorite favorite = new Favorite(uid, placeId , userId);

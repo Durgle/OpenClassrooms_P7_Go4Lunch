@@ -4,6 +4,7 @@ import android.location.Location;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.example.go4lunch.BuildConfig;
 import com.example.go4lunch.R;
@@ -34,6 +35,7 @@ public class GoogleMapApiUtils {
      * @param placeOpeningHours Place opening hours
      * @return Return Open, close or null if Place opening hours is null
      */
+    @StringRes
     public static Integer createStatus(PlaceOpeningHours placeOpeningHours) {
         if (placeOpeningHours != null) {
             if (placeOpeningHours.isOpenNow() == Boolean.TRUE) {

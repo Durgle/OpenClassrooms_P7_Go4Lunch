@@ -2,6 +2,8 @@ package com.example.go4lunch.ui.workmate;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.go4lunch.databinding.FragmentWorkmatesBinding;
 import com.example.go4lunch.injection.ViewModelFactory;
+import com.example.go4lunch.ui.AppActivity;
 import com.example.go4lunch.ui.placeDetail.PlaceDetailActivity;
 import com.example.go4lunch.ui.placeDetail.PlaceDetailViewModel;
 import com.example.go4lunch.ui.placeList.PlaceListViewModel;
@@ -36,6 +39,7 @@ public class WorkmatesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = FragmentWorkmatesBinding.inflate(inflater, container, false);
+        setHasOptionsMenu(true);
         return this.binding.getRoot();
     }
 

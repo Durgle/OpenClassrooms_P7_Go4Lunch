@@ -2,11 +2,10 @@ package com.example.go4lunch.ui.placeDetail;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -100,8 +99,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         if (placeState.getPhone() != null) {
             binding.detailPlaceContent.placeDetailCallButton.setOnClickListener(view -> {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + placeState.getPhone()));
-                startActivity(intent);
+                startExternalActivity(intent,"tel:" + placeState.getPhone());
             });
             ViewUtils.setTextViewColor(binding.detailPlaceContent.placeDetailCallButton, R.color.red);
         } else {
@@ -112,11 +110,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
         if (placeState.getWebsite() != null) {
             binding.detailPlaceContent.placeDetailWebsiteButton.setOnClickListener(view -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(placeState.getWebsite()));
-                startActivity(intent);
+                startExternalActivity(intent,placeState.getWebsite());
             });
             ViewUtils.setTextViewDrawableColor(binding.detailPlaceContent.placeDetailWebsiteButton, R.color.red);
         } else {
+
             ViewUtils.setTextViewDrawableColor(binding.detailPlaceContent.placeDetailWebsiteButton, R.color.lightGrey);
         }
 
@@ -124,6 +122,16 @@ public class PlaceDetailActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(placeState.getPhoto() != null ? placeState.getPhoto() : R.drawable.no_photos)
                 .into(binding.detailPlacePhoto);
+    }
+
+    public void startExternalActivity(@NonNull Intent intent, String uri) {
+        try {
+            intent.setData(Uri.parse(uri));
+            startActivity(intent);
+        }catch (Exception exception) {
+            Log.e("PlaceDetailActivity",exception.toString());
+            Toast.makeText(this, R.string.msg_error_general, Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

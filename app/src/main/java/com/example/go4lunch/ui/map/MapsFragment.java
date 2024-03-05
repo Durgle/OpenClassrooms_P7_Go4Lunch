@@ -17,22 +17,29 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.example.go4lunch.R;
-import com.example.go4lunch.data.models.map.Place;
 import com.example.go4lunch.databinding.FragmentMapsBinding;
 import com.example.go4lunch.injection.ViewModelFactory;
+import com.example.go4lunch.ui.AppActivity;
+import com.example.go4lunch.ui.placeDetail.PlaceDetailActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsFragment extends Fragment implements OnMapReadyCallback {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap map;
     private FragmentMapsBinding binding;
@@ -53,6 +60,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         binding = FragmentMapsBinding.inflate(inflater, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
+        setHasOptionsMenu(true);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         return binding.getRoot();
@@ -71,7 +79,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
 
-        if(ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION) == PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION) == PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
         } else {
             requestPermission();
@@ -87,30 +95,36 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             Log.e("MapsFragment", "Can't find style. Error: ", e);
         }
 
-        viewModel.getCurrentLocation().observe(getViewLifecycleOwner(),new Observer<Location>() {
+        viewModel.getCurrentLocation().observe(getViewLifecycleOwner(), new Observer<Location>() {
             @Override
             public void onChanged(Location location) {
-                if(location != null){
-                    LatLng position = new LatLng(location.getLatitude(),location.getLongitude());
+                if (location != null) {
+                    LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 15.0f));
                     viewModel.getCurrentLocation().removeObserver(this);
                 }
             }
         });
 
-        viewModel.getNearbyPlaces().observe(getViewLifecycleOwner(),placeList -> {
-            for (Place place : placeList) {
-                MarkerOptions marker = createMarker(place);
-                if(marker != null) {
-                    map.addMarker(marker);
+        viewModel.getNearbyPlaces().observe(getViewLifecycleOwner(), placeList -> {
+            map.clear();
+            for (PlaceViewState placeViewState : placeList) {
+                MarkerOptions markerOptions = createMarkerOptions(placeViewState);
+                if (markerOptions != null) {
+                    Marker marker = map.addMarker(markerOptions);
+                    if (marker != null) {
+                        // Set place id in tag
+                        marker.setTag(placeViewState.getPlaceId());
+                    }
                 }
             }
         });
 
         map.getUiSettings().setZoomControlsEnabled(true);
+        map.setOnMarkerClickListener(this);
     }
 
-    public void requestPermission(){
+    public void requestPermission() {
         ActivityCompat.requestPermissions(
                 requireActivity(),
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
@@ -118,15 +132,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         );
     }
 
-    public MarkerOptions createMarker(Place place) {
-        if(place.getGeometry() != null) {
-            LatLng position = new LatLng(
-                    place.getGeometry().getLocation().getLat(),
-                    place.getGeometry().getLocation().getLng()
-            );
-
-            return new MarkerOptions().position(position).title(place.getName());
-
+    public MarkerOptions createMarkerOptions(PlaceViewState placeViewState) {
+        LatLng location = placeViewState.getLocation();
+        if (location != null) {
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(location)
+                    .title(placeViewState.getPlaceName());
+            if (placeViewState.getWorkmateCount() > 0) {
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            }
+            return markerOptions;
         } else {
             return null;
         }
@@ -137,5 +152,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         super.onResume();
 
         viewModel.refresh();
+    }
+
+    @Override
+    public boolean onMarkerClick(@NonNull Marker marker) {
+        String placeId = (String) marker.getTag();
+        if (placeId != null) {
+            PlaceDetailActivity.startActivity(requireContext(), placeId);
+        }
+        return false;
     }
 }

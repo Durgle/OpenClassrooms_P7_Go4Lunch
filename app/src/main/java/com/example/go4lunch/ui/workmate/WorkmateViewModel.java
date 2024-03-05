@@ -27,7 +27,7 @@ public class WorkmateViewModel extends ViewModel {
     public WorkmateViewModel(UserRepository userRepository) {
         this.userRepository = userRepository;
 
-        workmateList = Transformations.map(userRepository.getAllUser(), userList -> {
+        workmateList = Transformations.map(userRepository.getAllWorkmates(), userList -> {
             List<WorkmateViewState> list = new ArrayList<>();
             for (User user : userList) {
                 list.add(mapUser(user));

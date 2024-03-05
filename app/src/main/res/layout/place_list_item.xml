@@ -2,9 +2,9 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/place_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/place_item"
     tools:showIn="@layout/fragment_place_list">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,88 +17,94 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small_content_margin"
+            android:textSize="@dimen/title_size"
             android:textStyle="bold"
-            tools:text="Le Zinc"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/place_address"
             app:layout_constraintEnd_toStartOf="@+id/place_distance"
-            app:layout_constraintBottom_toTopOf="@id/place_address" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Le Zinc" />
 
         <TextView
             android:id="@+id/place_address"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small_content_margin"
-            tools:text="French restaurant - 12 rue du Faubourg Poissonière"
-            android:maxLines="1"
             android:ellipsize="end"
-            app:layout_constraintTop_toBottomOf="@id/place_name"
+            android:maxLines="1"
+            android:textSize="@dimen/title_size"
+            app:layout_constraintBottom_toTopOf="@id/place_status"
+            app:layout_constraintEnd_toStartOf="@id/place_workmate_amount"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/place_user_amount"
-            app:layout_constraintBottom_toTopOf="@id/place_status" />
+            app:layout_constraintTop_toBottomOf="@id/place_name"
+            tools:text="French restaurant - 12 rue du Faubourg Poissonière" />
 
         <TextView
             android:id="@+id/place_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small_content_margin"
+            android:textSize="@dimen/title_size"
             android:textStyle="italic"
-            tools:text="Open"
-            app:layout_constraintTop_toBottomOf="@id/place_address"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/place_item_divider"
             app:layout_constraintEnd_toStartOf="@id/place_rating"
-            app:layout_constraintBottom_toTopOf="@id/place_item_divider" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/place_address"
+            tools:text="Open" />
 
         <TextView
             android:id="@+id/place_distance"
-            android:layout_width="@dimen/place_list_second_column_width"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="120m"
-            android:textAlignment="textEnd"
             android:layout_margin="@dimen/small_content_margin"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/place_photo"
+            android:textAlignment="textEnd"
+            android:textSize="@dimen/title_size"
+            app:layout_constraintBottom_toTopOf="@id/place_workmate_amount"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/place_user_amount"/>
+            app:layout_constraintEnd_toStartOf="@id/place_photo"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="9999m" />
 
         <TextView
-            android:id="@+id/place_user_amount"
-            android:layout_width="@dimen/place_list_second_column_width"
+            android:id="@+id/place_workmate_amount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
             android:layout_margin="@dimen/small_content_margin"
-            tools:text="(2)"
-            tools:drawableStartCompat="@drawable/baseline_person_outline_24"
-            app:layout_constraintTop_toBottomOf="@id/place_distance"
-            app:layout_constraintEnd_toStartOf="@id/place_photo"
+            android:gravity="end|center_vertical"
+            android:textSize="@dimen/title_size"
+            app:layout_constraintBottom_toTopOf="@id/place_rating"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/place_rating"/>
+            app:layout_constraintEnd_toStartOf="@id/place_photo"
+            app:layout_constraintTop_toBottomOf="@id/place_distance"
+            app:drawableStartCompat="@drawable/baseline_person_outline_24"
+            tools:text="(10)" />
 
         <TextView
             android:id="@+id/place_rating"
-            android:layout_width="@dimen/place_list_second_column_width"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
             android:layout_margin="@dimen/small_content_margin"
-            tools:text="★★★"
+            android:textAlignment="textEnd"
             android:textColor="@color/yellow"
-            app:layout_constraintTop_toBottomOf="@id/place_user_amount"
-            app:layout_constraintEnd_toStartOf="@id/place_photo"
+            android:textSize="@dimen/title_size"
+            app:layout_constraintBottom_toTopOf="@id/place_item_divider"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/place_item_divider"/>
+            app:layout_constraintEnd_toStartOf="@id/place_photo"
+            app:layout_constraintTop_toBottomOf="@id/place_workmate_amount"
+            tools:text="★★★" />
 
         <ImageView
             android:id="@+id/place_photo"
             android:layout_width="@dimen/place_photo_size"
             android:layout_height="@dimen/place_photo_size"
             android:layout_margin="@dimen/small_content_margin"
-            tools:src="@drawable/no_photos"
-            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/place_photo"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/place_item_divider"
             app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="@string/place_photo" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/no_photos" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/place_item_divider"

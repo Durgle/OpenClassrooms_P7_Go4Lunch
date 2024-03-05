@@ -14,9 +14,11 @@
         android:id="@+id/drawerBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/lunch_presentation"
-        android:alpha="0.2"
+        android:scaleType="centerCrop"
+        android:src="@drawable/login_bg"
+        android:alpha="0.5"
+        app:tint="@color/black_80"
+        app:tintMode="src_over"
         android:contentDescription="@string/drawer_background" />
 
     <LinearLayout

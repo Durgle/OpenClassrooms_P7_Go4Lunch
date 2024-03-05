@@ -24,4 +24,8 @@
     <string name="sign_in_email">Connexion par Email</string>
     <string name="sign_in_google">Connexion avec Google</string>
     <string name="app_logo">Logo de l\'application</string>
+    <string name="login_subtitle">Trouvez un bon restaurant et invitez vos collègues à déjeuner!</string>
+    <string name="login_background">Image de fond lors de la connexion</string>
+    <string name="msg_error_no_place">Vous n\'avez pas sélectionné de restaurant.</string>
+    <string name="msg_error_general">Une erreur s\'est produite, veuillez réessayer plus tard.</string>
 </resources>

@@ -19,6 +19,7 @@
         <item name="colorSurface">@color/orange</item>
         <item name="colorSurfaceContainerLow">@color/orange</item>
         <item name="colorOnSurface">@color/white</item>
+        <item name="colorSecondaryContainer">@color/orange_10_lightened</item>
     </style>
 
     <style name="ThemeOverlay.App.TabLayout" parent="">

@@ -7,7 +7,6 @@
     <dimen name="content_margin">8dp</dimen>
     <dimen name="large_margin">18dp</dimen>
     <dimen name="title_size">16sp</dimen>
-    <dimen name="place_list_second_column_width">50sp</dimen>
     <dimen name="place_photo_size">80dp</dimen>
     <dimen name="workmate_picture">80dp</dimen>
 </resources>

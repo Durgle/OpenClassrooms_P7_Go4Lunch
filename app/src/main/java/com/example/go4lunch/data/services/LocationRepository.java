@@ -8,21 +8,11 @@ import androidx.annotation.RequiresPermission;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.go4lunch.BuildConfig;
-import com.example.go4lunch.data.api.GoogleMapApi;
-import com.example.go4lunch.data.models.map.NearbySearchResponse;
-import com.example.go4lunch.data.models.map.Place;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.Priority;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Manage current location

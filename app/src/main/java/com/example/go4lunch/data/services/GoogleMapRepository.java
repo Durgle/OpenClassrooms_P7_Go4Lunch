@@ -11,6 +11,8 @@ import com.example.go4lunch.BuildConfig;
 import com.example.go4lunch.data.api.GoogleMapApi;
 import com.example.go4lunch.data.models.map.NearbySearchResponse;
 import com.example.go4lunch.data.models.map.Place;
+import com.example.go4lunch.data.models.map.PlaceAutocompletePrediction;
+import com.example.go4lunch.data.models.map.PlaceAutocompleteResponse;
 import com.example.go4lunch.data.models.map.PlacesDetailsResponse;
 
 import java.util.HashMap;
@@ -26,9 +28,14 @@ import retrofit2.Response;
  */
 public class GoogleMapRepository {
 
+    final int RADIUS = 1500;
+    @NonNull
+    final String ESTABLISHMENT_TYPE = "restaurant";
+
     private final GoogleMapApi mGoogleMapApi;
     private final Map<String, NearbySearchResponse> nearbyPlaceFetchedResponses = new HashMap<>();
     private final Map<String, PlacesDetailsResponse> placeDetailFetchedResponses = new HashMap<>();
+    private final Map<String, PlaceAutocompleteResponse> placeAutocompleteFetchedResponses = new HashMap<>();
     private final String apiKey;
 
     public GoogleMapRepository(GoogleMapApi googleMapApi) {
@@ -54,7 +61,7 @@ public class GoogleMapRepository {
             placesLiveData.setValue(response.getPlaces());
         } else {
 
-            mGoogleMapApi.getNearbyPlace(location, 1500, "restaurant", apiKey).enqueue(new Callback<NearbySearchResponse>() {
+            mGoogleMapApi.getNearbyPlace(location, RADIUS, ESTABLISHMENT_TYPE, apiKey).enqueue(new Callback<NearbySearchResponse>() {
                 @Override
                 public void onResponse(@NonNull Call<NearbySearchResponse> call, @NonNull Response<NearbySearchResponse> response) {
                     if (response.body() != null && response.isSuccessful()) {
@@ -74,6 +81,43 @@ public class GoogleMapRepository {
         }
 
         return placesLiveData;
+    }
+
+    /**
+     * Get place autocomplete
+     *
+     * @return List of place autocomplete prediction live data
+     */
+    public LiveData<List<PlaceAutocompletePrediction>> getPlaceAutocomplete(String input, double latitude, double longitude, @Nullable String language) {
+
+        MutableLiveData<List<PlaceAutocompletePrediction>> autocompleteLiveData = new MutableLiveData<>();
+        String location = latitude + "," + longitude;
+        PlaceAutocompleteResponse response = placeAutocompleteFetchedResponses.get(input+"|"+location);
+
+        if (response != null) {
+            autocompleteLiveData.setValue(response.getPredictions());
+        } else {
+
+            mGoogleMapApi.getPlaceAutocomplete(input,location,RADIUS, ESTABLISHMENT_TYPE,language,apiKey).enqueue(new Callback<PlaceAutocompleteResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<PlaceAutocompleteResponse> call, @NonNull Response<PlaceAutocompleteResponse> response) {
+                    if (response.body() != null && response.isSuccessful()) {
+                        placeAutocompleteFetchedResponses.put(input+"|"+location, response.body());
+                        autocompleteLiveData.setValue(response.body().getPredictions());
+                    } else {
+                        Log.e("GoogleMapRepository", response.message() + " responseCode:" + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<PlaceAutocompleteResponse> call, @NonNull Throwable t) {
+                    Log.e("GoogleMapRepository", t.toString());
+                    autocompleteLiveData.setValue(null);
+                }
+            });
+        }
+
+        return autocompleteLiveData;
     }
 
     /**
