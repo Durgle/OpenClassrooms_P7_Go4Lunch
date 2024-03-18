@@ -14,14 +14,13 @@ import com.example.go4lunch.data.services.LocationRepository;
 import com.example.go4lunch.data.services.SearchRepository;
 import com.example.go4lunch.data.services.SettingRepository;
 import com.example.go4lunch.data.services.UserRepository;
-import com.example.go4lunch.injection.Go4LunchWorkerFactory;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
-public class MainApplication extends Application implements Configuration.Provider {
+public class MainApplication extends Application {
 
     private static MainApplication sApplication;
     /** @noinspection NotNullFieldNotInitialized*/
@@ -108,11 +107,4 @@ public class MainApplication extends Application implements Configuration.Provid
         return settingRepository;
     }
 
-    @NonNull
-    @Override
-    public Configuration getWorkManagerConfiguration() {
-        return new Configuration.Builder()
-                .setWorkerFactory(new Go4LunchWorkerFactory(sApplication))
-                .build();
-    }
 }

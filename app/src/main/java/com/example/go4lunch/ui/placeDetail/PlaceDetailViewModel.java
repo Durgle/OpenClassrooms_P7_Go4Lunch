@@ -50,10 +50,10 @@ public class PlaceDetailViewModel extends ViewModel {
         this.userRepository = userRepository;
         this.favoriteRepository = favoriteRepository;
         this.placeId = placeId;
-        LiveData<Place> placeDetailsLiveData = googleMapRepository.getPlaceDetailsLiveData(this.placeId, null);
-        LiveData<List<User>> workmateListLiveData = userRepository.getWorkmatesForPlace(placeId);
-        LiveData<User> userLiveData = userRepository.getUserData();
-        LiveData<Boolean> isLikeLiveData = favoriteRepository.isLike(placeId);
+        LiveData<Place> placeDetailsLiveData = this.googleMapRepository.getPlaceDetailsLiveData(this.placeId, null);
+        LiveData<List<User>> workmateListLiveData = this.userRepository.getWorkmatesForPlace(placeId);
+        LiveData<User> userLiveData = this.userRepository.getUserData();
+        LiveData<Boolean> isLikeLiveData = this.favoriteRepository.isLike(placeId);
 
         placeDetailViewState.addSource(
                 placeDetailsLiveData, placeDetail -> combine(
@@ -133,7 +133,7 @@ public class PlaceDetailViewModel extends ViewModel {
     public void chooseRestaurant(Context context, String placeId, String placeName, String placeAddress) {
         PlaceDetailViewState viewState = placeDetailViewState.getValue();
         if (viewState != null) {
-            WorkerUtils.scheduleLunchNotification(context, 12, 0, 0);
+            WorkerUtils.scheduleLunchNotification(context, 16, 26, 0);
             if (viewState.getUser().isChoose()) {
                 this.userRepository.updateChosenRestaurant(null);
             } else {

@@ -69,9 +69,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         binding.detailPlaceContent.placeDetailLikeButton.setOnClickListener(view -> this.viewModel.toggleLike());
         binding.chooseRestaurantFab.setOnClickListener(
-                view -> {
-                    this.viewModel.chooseRestaurant(getApplicationContext(), placeState.getId(), placeState.getName(), placeState.getAddress());
-                }
+                view -> this.viewModel.chooseRestaurant(
+                        getApplicationContext(), placeState.getId(), placeState.getName(), placeState.getAddress()
+                )
         );
 
         if (userState.isChoose()) {
