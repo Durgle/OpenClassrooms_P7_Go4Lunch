@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.example.go4lunch.R;
-import com.example.go4lunch.data.models.map.Place;
 
 public class PlaceRecyclerViewAdapter extends ListAdapter<PlaceViewState,PlaceViewHolder> {
 

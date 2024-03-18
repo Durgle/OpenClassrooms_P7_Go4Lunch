@@ -20,24 +20,15 @@ import javax.annotation.Nullable;
 /**
  * Manage favorite
  */
-public class FavoriteRepository {
+public class FavoriteRepository extends FirestoreRepository {
 
     private static final String COLLECTION_NAME = "favorites";
     private static final String USER_ID_FIELD = "userId";
     private static final String PLACE_ID_FIELD = "placeId";
     private static final String VALUE_FIELD = "value";
 
-    @NonNull
-    private final FirebaseFirestore firebaseFirestore;
-    @NonNull
-    private final AuthUI authUI;
-    @NonNull
-    private final FirebaseAuth firebaseAuth;
-
     public FavoriteRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull AuthUI authUI, @NonNull FirebaseAuth firebaseAuth) {
-        this.firebaseFirestore = firebaseFirestore;
-        this.authUI = authUI;
-        this.firebaseAuth = firebaseAuth;
+        super(firebaseFirestore, authUI, firebaseAuth);
     }
 
     /**
@@ -45,28 +36,8 @@ public class FavoriteRepository {
      *
      * @return Favorite collection
      */
-    private CollectionReference getFavoriteCollection() {
+    protected CollectionReference getCollection() {
         return firebaseFirestore.collection(COLLECTION_NAME);
-    }
-
-    /**
-     * Get current user authenticated
-     *
-     * @return Current user
-     */
-    @Nullable
-    public FirebaseUser getCurrentUser() {
-        return firebaseAuth.getCurrentUser();
-    }
-
-    /**
-     * Get current user uid
-     *
-     * @return User uid
-     */
-    public String getCurrentUserUID() {
-        FirebaseUser user = getCurrentUser();
-        return (user != null) ? user.getUid() : null;
     }
 
     /**
@@ -79,14 +50,14 @@ public class FavoriteRepository {
 
         if (userId != null) {
             String uid = userId + "_" + placeId;
-            Task<DocumentSnapshot> favoritePlace = this.getFavoriteCollection().document(uid).get();
+            Task<DocumentSnapshot> favoritePlace = this.getCollection().document(uid).get();
             favoritePlace.addOnSuccessListener(
                     documentSnapshot -> {
                         if (documentSnapshot.exists()) {
-                            this.getFavoriteCollection().document(uid).delete();
+                            this.getCollection().document(uid).delete();
                         } else {
                             Favorite favorite = new Favorite(uid, placeId , userId);
-                            this.getFavoriteCollection().document(uid).set(favorite);
+                            this.getCollection().document(uid).set(favorite);
                         }
                     }
             ).addOnFailureListener(e -> Log.e("FavoriteRepository", e.toString()));
@@ -105,7 +76,7 @@ public class FavoriteRepository {
 
         String uid = userId + "_" + placeId;
         if (userId != null) {
-            this.getFavoriteCollection().document(uid)
+            this.getCollection().document(uid)
                     .addSnapshotListener((documentSnapshot, error) -> {
                         if (error != null) {
                             Log.e("FavoriteRepository", error.toString());

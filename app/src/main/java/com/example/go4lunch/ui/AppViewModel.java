@@ -33,7 +33,4 @@ public class AppViewModel extends AuthViewModel {
         }
     }
 
-    public LiveData<String> getCurrentSearch() {
-        return searchRepository.getSearch();
-    }
 }

@@ -36,10 +36,6 @@ public class PlaceViewHolder extends RecyclerView.ViewHolder {
             binding.placeWorkmateAmount.setText(
                     itemView.getContext().getString(R.string.place_workmate_amount, workmateCount)
             );
-//            ViewUtils.setLeftTextViewIcon(
-//                    binding.placeWorkmateAmount,
-//                    ContextCompat.getDrawable(itemView.getContext(), R.drawable.baseline_person_outline_24)
-//            );
             binding.placeWorkmateAmount.setVisibility(View.VISIBLE);
         } else {
             binding.placeWorkmateAmount.setText("");

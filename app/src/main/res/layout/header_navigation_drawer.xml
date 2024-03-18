@@ -54,7 +54,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:src="@drawable/vault_boy"/>
+                tools:src="@drawable/blank_profile"/>
 
             <TextView
                 android:id="@+id/drawerUsername"

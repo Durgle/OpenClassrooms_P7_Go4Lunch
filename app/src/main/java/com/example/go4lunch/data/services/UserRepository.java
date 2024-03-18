@@ -7,28 +7,32 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.go4lunch.data.models.LunchNotification;
 import com.example.go4lunch.data.models.firestore.Place;
 import com.example.go4lunch.data.models.firestore.User;
 import com.example.go4lunch.utils.SingleLiveEvent;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-public class UserRepository {
+public class UserRepository extends FirestoreRepository {
 
     private static final String COLLECTION_NAME = "users";
     private static final String DISPLAY_NAME_FIELD = "displayName";
@@ -38,31 +42,12 @@ public class UserRepository {
     private static final String PLACE_FIELD = "place";
     private static final String PLACE_ID_FIELD = "place.uid";
 
-    @NonNull
-    private final FirebaseFirestore firebaseFirestore;
-    @NonNull
-    private final AuthUI authUI;
-    @NonNull
-    private final FirebaseAuth firebaseAuth;
-
     public UserRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull AuthUI authUI, @NonNull FirebaseAuth firebaseAuth) {
-        this.firebaseFirestore = firebaseFirestore;
-        this.authUI = authUI;
-        this.firebaseAuth = firebaseAuth;
+        super(firebaseFirestore, authUI, firebaseAuth);
     }
 
-    private CollectionReference getUsersCollection() {
+    protected CollectionReference getCollection() {
         return firebaseFirestore.collection(COLLECTION_NAME);
-    }
-
-    @Nullable
-    public FirebaseUser getCurrentUser() {
-        return firebaseAuth.getCurrentUser();
-    }
-
-    public String getCurrentUserUID() {
-        FirebaseUser user = getCurrentUser();
-        return (user != null) ? user.getUid() : null;
     }
 
     public SingleLiveEvent<Boolean> signOut(Context context) {
@@ -85,7 +70,7 @@ public class UserRepository {
             String displayName = user.getDisplayName();
             String uid = user.getUid();
 
-            Task<DocumentSnapshot> userData = this.getUsersCollection().document(uid).get();
+            Task<DocumentSnapshot> userData = this.getCollection().document(uid).get();
             userData.addOnSuccessListener(
                     documentSnapshot -> {
                         if (documentSnapshot.exists()) {
@@ -93,10 +78,10 @@ public class UserRepository {
                             updates.put(EMAIL_FIELD, email);
                             updates.put(DISPLAY_NAME_FIELD, displayName);
                             updates.put(URL_PICTURE_FIELD, urlPicture);
-                            this.getUsersCollection().document(uid).update(updates);
+                            this.getCollection().document(uid).update(updates);
                         } else {
                             User userToCreate = new User(uid, displayName, email, urlPicture);
-                            this.getUsersCollection().document(uid).set(userToCreate);
+                            this.getCollection().document(uid).set(userToCreate);
                         }
                     }
             ).addOnFailureListener(e -> Log.e("UserRepository", "createOrUpdateUser", e));
@@ -106,7 +91,7 @@ public class UserRepository {
     public void updateChosenRestaurant(Place place) {
         String uid = this.getCurrentUserUID();
         if (uid != null) {
-            this.getUsersCollection().document(uid).update(PLACE_FIELD, place)
+            this.getCollection().document(uid).update(PLACE_FIELD, place)
                     .addOnFailureListener(e -> Log.e("UserRepository", "updateChosenRestaurant", e));
         }
     }
@@ -116,7 +101,7 @@ public class UserRepository {
         MutableLiveData<User> userData = new MutableLiveData<>();
         if (uid != null) {
 
-            this.getUsersCollection().document(uid)
+            this.getCollection().document(uid)
                     .addSnapshotListener((documentSnapshot, error) -> {
                         if (error != null) {
                             Log.e("UserRepository", "getUserData", error);
@@ -140,7 +125,7 @@ public class UserRepository {
         String uid = this.getCurrentUserUID();
         MutableLiveData<List<User>> users = new MutableLiveData<>();
         if (uid != null) {
-            this.getUsersCollection().whereNotEqualTo(ID_FIELD, uid)
+            this.getCollection().whereNotEqualTo(ID_FIELD, uid)
                     .addSnapshotListener((querySnapshots, error) -> {
                         if (error != null) {
                             Log.e("UserRepository", "getAllWorkmates", error);
@@ -165,11 +150,30 @@ public class UserRepository {
         return users;
     }
 
+    public LiveData<List<User>> getAllUsers() {
+        MutableLiveData<List<User>> users = new MutableLiveData<>();
+        this.getCollection().addSnapshotListener((querySnapshots, error) -> {
+                    if (error != null) {
+                        Log.e("UserRepository", "getAllUsers", error);
+                    }
+
+                    List<User> userList = new ArrayList<>();
+                    if (querySnapshots != null) {
+                        for (QueryDocumentSnapshot document : querySnapshots) {
+                            User user = document.toObject(User.class);
+                            userList.add(user);
+                        }
+                    }
+                    users.setValue(userList);
+                });
+        return users;
+    }
+
     public LiveData<List<User>> getWorkmatesForPlace(@NonNull String placeId) {
         String uid = this.getCurrentUserUID();
         MutableLiveData<List<User>> users = new MutableLiveData<>();
         if (uid != null) {
-            this.getUsersCollection()
+            this.getCollection()
                     .whereEqualTo(PLACE_ID_FIELD, placeId)
                     .whereNotEqualTo(ID_FIELD, uid)
                     .addSnapshotListener((querySnapshots, error) -> {
@@ -190,6 +194,34 @@ public class UserRepository {
             users.setValue(new ArrayList<>());
         }
         return users;
+    }
+
+    public LunchNotification getLunchNotificationData() throws ExecutionException, InterruptedException {
+
+        String uid = this.getCurrentUserUID();
+        if(uid != null) {
+            DocumentSnapshot userDocumentSnapshot = Tasks.await(this.getCollection().document(uid).get());
+            if (userDocumentSnapshot != null && userDocumentSnapshot.exists()) {
+                User user = userDocumentSnapshot.toObject(User.class);
+                if(user != null && user.getPlace() != null){
+                    QuerySnapshot workmateQuerySnapshot = Tasks.await(this.getCollection()
+                            .whereEqualTo(PLACE_ID_FIELD, user.getPlace().getUid())
+                            .whereNotEqualTo(ID_FIELD, user.getUid()).get());
+
+                    LunchNotification notification = new LunchNotification(user,user.getPlace());
+                    if (workmateQuerySnapshot != null) {
+                        List<User> workmates = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : workmateQuerySnapshot) {
+                            User workmate = document.toObject(User.class);
+                            workmates.add(workmate);
+                        }
+                        notification.setWorkmate(workmates);
+                    }
+                    return notification;
+                }
+            }
+        }
+        return null;
     }
 
 }

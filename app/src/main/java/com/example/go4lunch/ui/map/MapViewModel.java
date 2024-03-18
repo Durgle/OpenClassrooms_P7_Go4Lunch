@@ -18,7 +18,6 @@ import com.example.go4lunch.data.services.GoogleMapRepository;
 import com.example.go4lunch.data.services.LocationRepository;
 import com.example.go4lunch.data.services.SearchRepository;
 import com.example.go4lunch.data.services.UserRepository;
-import com.example.go4lunch.ui.placeDetail.viewState.WorkmateState;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;

@@ -42,5 +42,4 @@ public class WorkmateRecyclerViewAdapter extends ListAdapter<WorkmateState, Work
                 }
             };
 
-
 }

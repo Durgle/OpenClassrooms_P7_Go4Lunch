@@ -60,7 +60,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, Google
         binding = FragmentMapsBinding.inflate(inflater, container, false);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
-        setHasOptionsMenu(true);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         return binding.getRoot();

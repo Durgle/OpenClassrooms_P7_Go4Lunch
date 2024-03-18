@@ -1,19 +1,25 @@
 package com.example.go4lunch.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
+
+import androidx.appcompat.widget.SearchView;
+
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,7 +31,9 @@ import com.example.go4lunch.databinding.HeaderNavigationDrawerBinding;
 import com.example.go4lunch.injection.ViewModelFactory;
 import com.example.go4lunch.ui.map.MapsFragment;
 import com.example.go4lunch.ui.placeDetail.PlaceDetailActivity;
+import com.example.go4lunch.ui.chat.ChatFragment;
 import com.example.go4lunch.ui.placeList.PlaceListFragment;
+import com.example.go4lunch.ui.setting.SettingActivity;
 import com.example.go4lunch.ui.workmate.WorkmatesFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,7 +61,7 @@ public class AppActivity extends AppCompatActivity {
                         .setReorderingAllowed(true)
                         .commit();
             }
-            initLoggedUi(savedInstanceState);
+            initLoggedUi();
         }
     }
 
@@ -63,17 +71,11 @@ public class AppActivity extends AppCompatActivity {
         return super.onCreateView(name, context, attrs);
     }
 
-    private void initLoggedUi(Bundle savedInstanceState) {
+    private void initLoggedUi() {
 
-        if (savedInstanceState == null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.main_container, MapsFragment.newInstance())
-                    .setReorderingAllowed(true)
-                    .commit();
-        }
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this));
         setSupportActionBar(binding.topAppBar);
+        requestNotificationPermission();
         binding.topAppBar.setNavigationOnClickListener(view -> binding.drawerMenu.open());
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
@@ -83,6 +85,8 @@ public class AppActivity extends AppCompatActivity {
                 fragment = new PlaceListFragment();
             } else if (itemId == R.id.workmates) {
                 fragment = new WorkmatesFragment();
+            } else if (itemId == R.id.chat) {
+                fragment = new ChatFragment();
             } else {
                 fragment = new MapsFragment();
             }
@@ -97,24 +101,27 @@ public class AppActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.logout) {
                 viewModel.logout(AppActivity.this).observe(this, result -> {
-                    if(result) {
+                    if (result) {
                         redirectToLogin();
                     }
                 });
             }
             if (item.getItemId() == R.id.your_lunch) {
                 String chosenPlaceId = viewModel.getChosenPlaceId();
-                if(chosenPlaceId == null){
-                    Toast.makeText(getBaseContext(),R.string.msg_error_no_place , Toast.LENGTH_SHORT).show();
+                if (chosenPlaceId == null) {
+                    Toast.makeText(getBaseContext(), R.string.msg_error_no_place, Toast.LENGTH_SHORT).show();
                 } else {
-                    PlaceDetailActivity.startActivity(this,chosenPlaceId);
+                    PlaceDetailActivity.startActivity(this, chosenPlaceId);
                 }
+            }
+            if (item.getItemId() == R.id.settings) {
+                SettingActivity.startActivity(this);
             }
             return true;
         });
 
         viewModel.getUserData().observe(this, user -> {
-            if(user != null){
+            if (user != null) {
                 HeaderNavigationDrawerBinding headerBinding = HeaderNavigationDrawerBinding.bind(navigationView.getHeaderView(0));
                 headerBinding.drawerUsername.setText(user.getDisplayName());
                 headerBinding.drawerUserEmail.setText(user.getEmail());
@@ -146,13 +153,7 @@ public class AppActivity extends AppCompatActivity {
         if (searchItem != null) {
             SearchView searchView = (SearchView) searchItem.getActionView();
             if (searchView != null) {
-//                viewModel.getCurrentSearch().observe(this,search -> {
-//                    if(search != null && !searchView.getQuery().toString().equals(search)){
-//                        searchView.setIconified(false);
-//                        searchView.setQuery(search,false);
-//                        searchView.clearFocus();
-//                    }
-//                });
+
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String input) {
@@ -174,6 +175,16 @@ public class AppActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    private void requestNotificationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    0
+            );
+        }
     }
 
 }

@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Go4Lunch</string>
     <string name="app_bar_search">Search</string>
+    <string name="app_bar_save">Save</string>
     <string name="main_activity_top_app_bar">I\'m Hungry!</string>
     <string name="menu_map_view">Map View</string>
     <string name="menu_list_view">List View</string>
     <string name="menu_workmates">Workmates</string>
+    <string name="menu_chat" translatable="false">Chat</string>
     <string name="drawer_your_lunch">Your lunch</string>
     <string name="drawer_background">Drawer background image</string>
     <string name="drawer_settings">Settings</string>
@@ -28,4 +30,13 @@
     <string name="login_subtitle">Find a nice restaurant and invite your co-workers for lunch!</string>
     <string name="msg_error_no_place">You haven\'t selected a restaurant.</string>
     <string name="msg_error_general">An error occurred, please try again later.</string>
+    <string name="msg_error_nothing_save">Nothing to save.</string>
+    <string name="msg_success_setting_save">The settings have been saved.</string>
+    <string name="lunch_channel_name">Your lunch notification.</string>
+    <string name="lunch_channel_description">Notification for the chosen restaurant at 12 p.m.</string>
+    <string name="lunch_notification_title">Your lunch restaurant.</string>
+    <string name="lunch_notification_short">You have chosen the following restaurant:</string>
+    <string name="lunch_notification_content">You have chosen the restaurant %1$s located at %2$s. Your workmates who also chose this restaurant are: %3$s</string>
+    <string name="lunch_notification_content_no_workmate">You have chosen the restaurant %1$s located at %2$s. Nobody is joining you.</string>
+    <string name="setting_enable_notification">Enable notifications</string>
 </resources>

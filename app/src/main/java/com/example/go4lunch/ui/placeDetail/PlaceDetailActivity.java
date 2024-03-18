@@ -10,6 +10,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
 import com.example.go4lunch.R;
@@ -19,8 +22,11 @@ import com.example.go4lunch.ui.placeDetail.viewState.PlaceState;
 import com.example.go4lunch.ui.placeDetail.viewState.UserState;
 import com.example.go4lunch.ui.placeDetail.viewState.WorkmateState;
 import com.example.go4lunch.utils.ViewUtils;
+import com.example.go4lunch.worker.NotificationWorker;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
@@ -55,7 +61,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
             if (viewState != null) {
                 fillWorkmateData(viewState.getWorkmates());
                 fillPlaceData(viewState.getPlace());
-                fillUserData(viewState.getUser(),viewState.getPlace());
+                fillUserData(viewState.getUser(), viewState.getPlace());
             }
         });
     }
@@ -68,7 +74,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
     private void fillUserData(UserState userState, PlaceState placeState) {
 
         binding.detailPlaceContent.placeDetailLikeButton.setOnClickListener(view -> this.viewModel.toggleLike());
-        binding.chooseRestaurantFab.setOnClickListener(view -> this.viewModel.chooseRestaurant(placeState.getId(),placeState.getName()));
+        binding.chooseRestaurantFab.setOnClickListener(
+                view -> {
+                    this.viewModel.chooseRestaurant(getApplicationContext(), placeState.getId(), placeState.getName(),placeState.getAddress());
+                }
+        );
 
         if (userState.isChoose()) {
             binding.chooseRestaurantFab.setColorFilter(getResources().getColor(R.color.green));
@@ -79,7 +89,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         if (userState.isLike()) {
             ViewUtils.setTextViewDrawableColor(binding.detailPlaceContent.placeDetailLikeButton, R.color.yellow);
         } else {
-           ViewUtils.setTextViewDrawableColor(binding.detailPlaceContent.placeDetailLikeButton, R.color.red);
+            ViewUtils.setTextViewDrawableColor(binding.detailPlaceContent.placeDetailLikeButton, R.color.red);
         }
     }
 
@@ -99,7 +109,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         if (placeState.getPhone() != null) {
             binding.detailPlaceContent.placeDetailCallButton.setOnClickListener(view -> {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                startExternalActivity(intent,"tel:" + placeState.getPhone());
+                startExternalActivity(intent, "tel:" + placeState.getPhone());
             });
             ViewUtils.setTextViewColor(binding.detailPlaceContent.placeDetailCallButton, R.color.red);
         } else {
@@ -110,7 +120,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         if (placeState.getWebsite() != null) {
             binding.detailPlaceContent.placeDetailWebsiteButton.setOnClickListener(view -> {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                startExternalActivity(intent,placeState.getWebsite());
+                startExternalActivity(intent, placeState.getWebsite());
             });
             ViewUtils.setTextViewDrawableColor(binding.detailPlaceContent.placeDetailWebsiteButton, R.color.red);
         } else {
@@ -128,8 +138,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
         try {
             intent.setData(Uri.parse(uri));
             startActivity(intent);
-        }catch (Exception exception) {
-            Log.e("PlaceDetailActivity",exception.toString());
+        } catch (Exception exception) {
+            Log.e("PlaceDetailActivity", exception.toString());
             Toast.makeText(this, R.string.msg_error_general, Toast.LENGTH_SHORT).show();
         }
     }

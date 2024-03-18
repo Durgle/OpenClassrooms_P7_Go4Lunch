@@ -8,10 +8,12 @@ public class Place {
 
     private String uid;
     private String name;
+    private String address;
 
-    public Place(String uid, String name) {
+    public Place(String uid, String name, String address) {
         this.uid = uid;
         this.name = name;
+        this.address = address;
     }
 
     public Place() {}
@@ -23,6 +25,9 @@ public class Place {
     public String getName() {
         return name;
     }
+    public String getAddress() {
+        return address;
+    }
 
     // --- SETTERS ---
     public void setUid(String uid) {
@@ -31,18 +36,22 @@ public class Place {
     public void setName(String name) {
         this.name = name;
     }
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Place place = (Place) o;
-        return Objects.equals(uid, place.uid) && Objects.equals(name, place.name);
+        return Objects.equals(uid, place.uid) && Objects.equals(name, place.name) && Objects.equals(address, place.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, name);
+        return Objects.hash(uid, name, address);
     }
 
     @NonNull
@@ -51,6 +60,7 @@ public class Place {
         return "Place{" +
                 "uid='" + uid + '\'' +
                 ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

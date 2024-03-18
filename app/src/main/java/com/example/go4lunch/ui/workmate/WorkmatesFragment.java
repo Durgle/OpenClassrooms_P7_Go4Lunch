@@ -39,7 +39,6 @@ public class WorkmatesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = FragmentWorkmatesBinding.inflate(inflater, container, false);
-        setHasOptionsMenu(true);
         return this.binding.getRoot();
     }
 

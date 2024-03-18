@@ -1,7 +1,5 @@
 package com.example.go4lunch.injection;
 
-import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.SavedStateHandleSupport;
@@ -11,23 +9,22 @@ import androidx.lifecycle.viewmodel.CreationExtras;
 
 import com.example.go4lunch.MainApplication;
 import com.example.go4lunch.data.PermissionChecker;
-import com.example.go4lunch.data.RetrofitService;
+import com.example.go4lunch.data.services.ChatRepository;
 import com.example.go4lunch.data.services.FavoriteRepository;
 import com.example.go4lunch.data.services.GoogleMapRepository;
 import com.example.go4lunch.data.services.LocationRepository;
 import com.example.go4lunch.data.services.SearchRepository;
+import com.example.go4lunch.data.services.SettingRepository;
 import com.example.go4lunch.data.services.UserRepository;
 import com.example.go4lunch.ui.AppViewModel;
 import com.example.go4lunch.ui.AuthViewModel;
+import com.example.go4lunch.ui.chat.ChatViewModel;
 import com.example.go4lunch.ui.map.MapViewModel;
 import com.example.go4lunch.ui.placeDetail.PlaceDetailActivity;
 import com.example.go4lunch.ui.placeDetail.PlaceDetailViewModel;
 import com.example.go4lunch.ui.placeList.PlaceListViewModel;
+import com.example.go4lunch.ui.setting.SettingViewModel;
 import com.example.go4lunch.ui.workmate.WorkmateViewModel;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.location.LocationServices;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
@@ -51,20 +48,26 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @NonNull
     private final SearchRepository searchRepository;
 
+    @NonNull
+    private final ChatRepository chatRepository;
+
+    @NonNull
+    private final SettingRepository settingRepository;
+
     public static ViewModelFactory getInstance() {
         if (factory == null) {
             synchronized (ViewModelFactory.class) {
                 if (factory == null) {
-                    Application application = MainApplication.getApplication();
+                    MainApplication application = MainApplication.getApplication();
                     factory = new ViewModelFactory(
-                            new GoogleMapRepository(RetrofitService.getGoogleMapApi()),
-                            new PermissionChecker(application),
-                            new LocationRepository(
-                                    LocationServices.getFusedLocationProviderClient(application)
-                            ),
-                            new UserRepository(FirebaseFirestore.getInstance(), AuthUI.getInstance(), FirebaseAuth.getInstance()),
-                            new FavoriteRepository(FirebaseFirestore.getInstance(), AuthUI.getInstance(), FirebaseAuth.getInstance()),
-                            new SearchRepository()
+                            application.getGoogleMapRepository(),
+                            application.getPermissionChecker(),
+                            application.getLocationRepository(),
+                            application.getUserRepository(),
+                            application.getFavoriteRepository(),
+                            application.getSearchRepository(),
+                            application.getChatRepository(),
+                            application.getSettingRepository()
                     );
                 }
             }
@@ -78,7 +81,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
             @NonNull LocationRepository locationRepository,
             @NonNull UserRepository userRepository,
             @NonNull FavoriteRepository favoriteRepository,
-            @NonNull SearchRepository searchRepository
+            @NonNull SearchRepository searchRepository,
+            @NonNull ChatRepository chatRepository,
+            @NonNull SettingRepository settingRepository
     ) {
         this.googleMapRepository = googleMapRepository;
         this.permissionChecker = permissionChecker;
@@ -86,6 +91,8 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         this.userRepository = userRepository;
         this.favoriteRepository = favoriteRepository;
         this.searchRepository = searchRepository;
+        this.chatRepository = chatRepository;
+        this.settingRepository = settingRepository;
     }
 
     @SuppressWarnings("unchecked")
@@ -128,6 +135,12 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         }
         if (modelClass.isAssignableFrom(WorkmateViewModel.class)) {
             return (T) new WorkmateViewModel(this.userRepository);
+        }
+        if (modelClass.isAssignableFrom(ChatViewModel.class)) {
+            return (T) new ChatViewModel(this.chatRepository, this.userRepository);
+        }
+        if (modelClass.isAssignableFrom(SettingViewModel.class)) {
+            return (T) new SettingViewModel(this.settingRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

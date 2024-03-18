@@ -1,5 +1,7 @@
 package com.example.go4lunch.ui.placeDetail;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -15,6 +17,7 @@ import com.example.go4lunch.ui.placeDetail.viewState.PlaceDetailViewState;
 import com.example.go4lunch.ui.placeDetail.viewState.PlaceState;
 import com.example.go4lunch.ui.placeDetail.viewState.UserState;
 import com.example.go4lunch.ui.placeDetail.viewState.WorkmateState;
+import com.example.go4lunch.utils.WorkerUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -127,14 +130,15 @@ public class PlaceDetailViewModel extends ViewModel {
         this.favoriteRepository.togglePlaceLike(placeId);
     }
 
-    public void chooseRestaurant(String placeId, String placeName) {
+    public void chooseRestaurant(Context context, String placeId, String placeName, String placeAddress) {
         PlaceDetailViewState viewState = placeDetailViewState.getValue();
         if (viewState != null) {
+            WorkerUtils.scheduleLunchNotification(context,12,0,0);
             if (viewState.getUser().isChoose()) {
                 this.userRepository.updateChosenRestaurant(null);
             } else {
                 this.userRepository.updateChosenRestaurant(
-                        new com.example.go4lunch.data.models.firestore.Place(placeId, placeName)
+                        new com.example.go4lunch.data.models.firestore.Place(placeId, placeName,placeAddress)
                 );
             }
         }
