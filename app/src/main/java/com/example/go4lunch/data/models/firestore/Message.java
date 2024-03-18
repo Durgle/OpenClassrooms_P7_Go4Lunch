@@ -18,18 +18,22 @@ public class Message {
         this.userId = userId;
     }
 
-    public Message() {}
+    public Message() {
+    }
 
     // --- GETTERS ---
     public String getUid() {
         return uid;
     }
+
     public String getMessage() {
         return message;
     }
+
     public long getCreationDate() {
         return creationDate;
     }
+
     public String getUserId() {
         return userId;
     }
@@ -38,12 +42,15 @@ public class Message {
     public void setUid(String uid) {
         this.uid = uid;
     }
+
     public void setMessage(String message) {
         this.message = message;
     }
+
     public void setCreationDate(long dateCreated) {
         this.creationDate = dateCreated;
     }
+
     public void setUserId(String userId) {
         this.userId = userId;
     }

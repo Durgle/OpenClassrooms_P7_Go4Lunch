@@ -1,7 +1,5 @@
 package com.example.go4lunch.ui;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.go4lunch.data.models.firestore.User;
 import com.example.go4lunch.data.services.SearchRepository;
 import com.example.go4lunch.data.services.UserRepository;

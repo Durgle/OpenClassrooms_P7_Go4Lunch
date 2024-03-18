@@ -133,12 +133,12 @@ public class PlaceDetailViewModel extends ViewModel {
     public void chooseRestaurant(Context context, String placeId, String placeName, String placeAddress) {
         PlaceDetailViewState viewState = placeDetailViewState.getValue();
         if (viewState != null) {
-            WorkerUtils.scheduleLunchNotification(context,12,0,0);
+            WorkerUtils.scheduleLunchNotification(context, 12, 0, 0);
             if (viewState.getUser().isChoose()) {
                 this.userRepository.updateChosenRestaurant(null);
             } else {
                 this.userRepository.updateChosenRestaurant(
-                        new com.example.go4lunch.data.models.firestore.Place(placeId, placeName,placeAddress)
+                        new com.example.go4lunch.data.models.firestore.Place(placeId, placeName, placeAddress)
                 );
             }
         }

@@ -2,7 +2,6 @@ package com.example.go4lunch.ui.chat;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,13 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.go4lunch.data.models.firestore.User;
 import com.example.go4lunch.databinding.FragmentChatBinding;
 import com.example.go4lunch.injection.ViewModelFactory;
-import com.example.go4lunch.ui.placeList.PlaceListViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChatFragment extends Fragment {
 
@@ -51,8 +45,8 @@ public class ChatFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel.getMessages().observe(getViewLifecycleOwner(), list -> adapter.submitList(list));
         binding.chatMessageList.setAdapter(adapter);
-        viewModel.getCurrentMessages().observe(getViewLifecycleOwner(),currentMessage -> {
-            if(!binding.chatMessageInput.getText().toString().equals(currentMessage)){
+        viewModel.getCurrentMessages().observe(getViewLifecycleOwner(), currentMessage -> {
+            if (!binding.chatMessageInput.getText().toString().equals(currentMessage)) {
                 binding.chatMessageInput.setText(currentMessage);
             }
         });

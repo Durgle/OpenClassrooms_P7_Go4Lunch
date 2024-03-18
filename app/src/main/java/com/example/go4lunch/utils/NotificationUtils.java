@@ -3,7 +3,6 @@ package com.example.go4lunch.utils;
 import static com.example.go4lunch.ui.placeDetail.PlaceDetailActivity.PLACE_ID;
 
 import android.Manifest;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -42,7 +41,6 @@ public class NotificationUtils {
         intent.putExtra(PLACE_ID, place.getUid());
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-        String shortContent = context.getString(R.string.lunch_notification_short);
         String content;
         if (workmates != null) {
             content = context.getString(R.string.lunch_notification_content, place.getName(), place.getAddress(), workmates);

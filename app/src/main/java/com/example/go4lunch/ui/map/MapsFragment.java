@@ -17,17 +17,12 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import com.example.go4lunch.R;
 import com.example.go4lunch.databinding.FragmentMapsBinding;
 import com.example.go4lunch.injection.ViewModelFactory;
-import com.example.go4lunch.ui.AppActivity;
 import com.example.go4lunch.ui.placeDetail.PlaceDetailActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

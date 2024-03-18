@@ -33,9 +33,10 @@
     <string name="lunch_channel_description">Notification pour le restaurant choisi le midi.</string>
     <string name="lunch_channel_name">Votre notification de déjeuner.</string>
     <string name="lunch_notification_content_no_workmate">Vous avez choisi le restaurant %1$s situé %2$s. Personne ne se joint à vous.</string>
-    <string name="lunch_notification_short">Vous avez choisi le restaurant suivant :</string>
     <string name="setting_enable_notification">Activer les notifications</string>
     <string name="app_bar_save">Enregistrer</string>
     <string name="msg_success_setting_save">Les paramètres ont été enregistrés.</string>
     <string name="msg_error_nothing_save">Rien à enregistrer</string>
+    <string name="hint_enter_message">Saisissez votre message</string>
+    <string name="send_button">Bouton d\'envoi</string>
 </resources>

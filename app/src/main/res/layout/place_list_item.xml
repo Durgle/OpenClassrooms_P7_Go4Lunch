@@ -72,11 +72,11 @@
             android:layout_margin="@dimen/small_content_margin"
             android:gravity="end|center_vertical"
             android:textSize="@dimen/title_size"
+            app:drawableStartCompat="@drawable/baseline_person_outline_24"
             app:layout_constraintBottom_toTopOf="@id/place_rating"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/place_photo"
             app:layout_constraintTop_toBottomOf="@id/place_distance"
-            app:drawableStartCompat="@drawable/baseline_person_outline_24"
             tools:text="(10)" />
 
         <TextView

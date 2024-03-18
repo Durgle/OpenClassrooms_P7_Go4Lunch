@@ -5,51 +5,51 @@
     android:id="@+id/workmateListItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
     android:layout_marginVertical="@dimen/small_content_margin"
-    tools:showIn="@layout/fragment_workmates"
-    android:orientation="vertical">
+    android:layout_marginStart="8dp"
+    android:orientation="vertical"
+    tools:showIn="@layout/fragment_workmates">
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/workmatePicture"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:strokeColor="@color/lightGrey"
-        app:strokeWidth="1dp"
         android:padding="2dp"
-        android:id="@+id/workmatePicture"
-        app:shapeAppearanceOverlay="@style/Widget.App.ShapeableImageView.Circular"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:src="@drawable/blank_profile"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/Widget.App.ShapeableImageView.Circular"
+        app:strokeColor="@color/lightGrey"
+        app:strokeWidth="1dp"
+        tools:src="@drawable/blank_profile" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/workmatePlaceInformation"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingHorizontal="8dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/workmatePicture"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/workmatePlace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small_content_margin"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Scarlett is eating french (Le Zinc)" />
 
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/place_item_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

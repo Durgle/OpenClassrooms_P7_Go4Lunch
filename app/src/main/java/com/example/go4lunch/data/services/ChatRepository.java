@@ -6,31 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.go4lunch.data.models.firestore.Favorite;
 import com.example.go4lunch.data.models.firestore.Message;
-import com.example.go4lunch.data.models.firestore.User;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.type.DateTime;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nullable;
 
 /**
  * Manage chat message
  */
-public class ChatRepository extends FirestoreRepository{
+public class ChatRepository extends FirestoreRepository {
 
     private static final String COLLECTION_NAME = "chat";
     private static final String USER_ID_FIELD = "userId";
@@ -62,7 +52,7 @@ public class ChatRepository extends FirestoreRepository{
         if (userId != null) {
             long date = new Date().getTime();
             String uid = userId + "_" + date;
-            Message message = new Message(uid,messageContent,date,userId);
+            Message message = new Message(uid, messageContent, date, userId);
             this.getCollection().document(uid).set(message)
                     .addOnFailureListener(e -> Log.e("ChatRepository", e.toString()));
         }
@@ -75,7 +65,7 @@ public class ChatRepository extends FirestoreRepository{
      */
     public LiveData<List<Message>> getMessages() {
         MutableLiveData<List<Message>> messages = new MutableLiveData<>();
-            this.getCollection()
+        this.getCollection()
                 .addSnapshotListener((querySnapshots, error) -> {
                     if (error != null) {
                         Log.e("ChatRepository", "getMessages", error);
@@ -91,7 +81,7 @@ public class ChatRepository extends FirestoreRepository{
                     }
                     messages.setValue(messageList);
                 });
-            return messages;
+        return messages;
     }
 
 }

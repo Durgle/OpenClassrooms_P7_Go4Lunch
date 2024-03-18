@@ -10,12 +10,11 @@ import com.example.go4lunch.data.models.firestore.Message;
 import com.example.go4lunch.data.models.firestore.User;
 import com.example.go4lunch.data.services.ChatRepository;
 import com.example.go4lunch.data.services.UserRepository;
+import com.example.go4lunch.utils.TimeUtils;
+import com.google.firebase.auth.FirebaseUser;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -37,23 +36,26 @@ public class ChatViewModel extends ViewModel {
         LiveData<List<User>> usersLiveData = userRepository.getAllUsers();
 
         chatMessageLiveData.addSource(messagesLiveData, messages -> combine(usersLiveData.getValue(), messages));
-        chatMessageLiveData.addSource(usersLiveData, users -> combine(users,messagesLiveData.getValue()));
+        chatMessageLiveData.addSource(usersLiveData, users -> combine(users, messagesLiveData.getValue()));
     }
 
-    private void combine(@Nullable List<User> users,@Nullable List<Message> messages) {
+    private void combine(@Nullable List<User> users, @Nullable List<Message> messages) {
 
         if (users != null && messages != null) {
 
             List<MessageViewState> list = new ArrayList<>();
+            FirebaseUser currentUser = userRepository.getCurrentUser();
             for (Message message : messages) {
 
                 Optional<User> foundUser = users.stream()
                         .filter(user -> Objects.equals(user.getUid(), message.getUserId()))
                         .findFirst();
 
-                if(foundUser.isPresent()){
-                    list.add(new MessageViewState(message.getUid(), foundUser.get(),message.getMessage(),String.valueOf( message.getCreationDate())));
-                }
+                foundUser.ifPresent(user -> {
+                    String date = TimeUtils.formatDateTimeForDisplay(message.getCreationDate());
+                    boolean isCurrentUser = currentUser != null && currentUser.getUid().equals(user.getUid());
+                    list.add(new MessageViewState(message.getUid(), user, message.getMessage(), date, isCurrentUser));
+                });
             }
 
             chatMessageLiveData.setValue(list);

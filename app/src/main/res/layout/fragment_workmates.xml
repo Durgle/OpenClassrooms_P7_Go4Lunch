@@ -7,13 +7,12 @@
     tools:context="ui.workmate.WorkmatesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/workmateList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/workmateList"
         android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/workmate_list_item"
         tools:itemCount="3"
-        />
+        tools:listitem="@layout/workmate_list_item" />
 
 </FrameLayout>

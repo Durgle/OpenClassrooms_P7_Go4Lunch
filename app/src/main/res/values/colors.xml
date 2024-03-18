@@ -5,11 +5,13 @@
     <color name="blue">#4166B1</color>
     <color name="grey">#373535</color>
     <color name="lightGrey">#A6A6A6</color>
+    <color name="white_10_darken">#E1E1E1</color>
     <color name="white">#FEFEFE</color>
     <color name="green">#5CF09D</color>
+    <color name="green_10_darken">#3EED8B</color>
     <color name="yellow">#F5E418</color>
     <color name="red">#FB3F1B</color>
-    <color name="red_20_lightened">#FC6549</color>
+    <color name="red_30_lightened">#FC795F</color>
     <color name="orange">#FB7540</color>
     <color name="orange_10_darken">#E25C27</color>
     <color name="orange_10_lightened">#FF8F5A</color>

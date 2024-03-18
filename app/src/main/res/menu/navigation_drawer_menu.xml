@@ -3,20 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/your_lunch"
+        android:checkable="true"
         android:icon="@drawable/baseline_restaurant_menu_24"
         android:title="@string/drawer_your_lunch"
-        android:checkable="true"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/settings"
+        android:checkable="true"
         android:icon="@drawable/baseline_settings_24"
         android:title="@string/drawer_settings"
-        android:checkable="true"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/logout"
+        android:checkable="true"
         android:icon="@drawable/baseline_power_settings_new_24"
         android:title="@string/drawer_logout"
-        android:checkable="true"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 </menu>

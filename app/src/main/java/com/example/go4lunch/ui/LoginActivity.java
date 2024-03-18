@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser currentUser = this.viewModel.getCurrentUser();
         if (currentUser != null) {
             redirectToApp();
-        }else {
+        } else {
             createSignInIntent();
         }
     }
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             viewModel.createOrUpdateUser();
             redirectToApp();
         } else {
-            Log.e("LoginActivity",result.toString());
+            Log.e("LoginActivity", result.toString());
         }
     }
 

@@ -10,12 +10,9 @@ import com.example.go4lunch.data.models.firestore.Favorite;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import javax.annotation.Nullable;
 
 /**
  * Manage favorite
@@ -56,7 +53,7 @@ public class FavoriteRepository extends FirestoreRepository {
                         if (documentSnapshot.exists()) {
                             this.getCollection().document(uid).delete();
                         } else {
-                            Favorite favorite = new Favorite(uid, placeId , userId);
+                            Favorite favorite = new Favorite(uid, placeId, userId);
                             this.getCollection().document(uid).set(favorite);
                         }
                     }

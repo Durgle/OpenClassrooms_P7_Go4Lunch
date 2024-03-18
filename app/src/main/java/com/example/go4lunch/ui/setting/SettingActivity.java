@@ -3,8 +3,6 @@ package com.example.go4lunch.ui.setting;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,24 +36,24 @@ public class SettingActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.settingToolbar.setNavigationOnClickListener(view -> finish());
         binding.settingToolbar.setOnMenuItemClickListener(menuItem -> {
-            if(menuItem.getItemId() == R.id.saveButton){
+            if (menuItem.getItemId() == R.id.saveButton) {
                 viewModel.save();
             }
             return true;
         });
 
-        binding.enableNotification.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            viewModel.onNotificationEnabledChange(isChecked);
-        });
+        binding.enableNotification.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> viewModel.onNotificationEnabledChange(isChecked)
+        );
 
         this.viewModel.getSettings().observe(this, settings -> {
-            if(settings != null) {
+            if (settings != null) {
                 binding.enableNotification.setChecked(settings.isNotificationEnabled());
             }
         });
 
         this.viewModel.isSaved().observe(this, saved -> {
-            if(saved) {
+            if (saved) {
                 Toast.makeText(getBaseContext(), R.string.msg_success_setting_save, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getBaseContext(), R.string.msg_error_nothing_save, Toast.LENGTH_SHORT).show();

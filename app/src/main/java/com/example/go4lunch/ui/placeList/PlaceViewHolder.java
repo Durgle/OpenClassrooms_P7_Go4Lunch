@@ -3,13 +3,11 @@ package com.example.go4lunch.ui.placeList;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.go4lunch.R;
 import com.example.go4lunch.databinding.PlaceListItemBinding;
-import com.example.go4lunch.utils.ViewUtils;
 
 public class PlaceViewHolder extends RecyclerView.ViewHolder {
 

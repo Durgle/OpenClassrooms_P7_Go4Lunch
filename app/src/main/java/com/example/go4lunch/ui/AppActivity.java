@@ -50,19 +50,23 @@ public class AppActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(AppViewModel.class);
 
-        FirebaseUser currentUser = this.viewModel.getCurrentUser();
-        if (currentUser == null) {
-            redirectToLogin();
-        } else {
-            if (savedInstanceState == null) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.main_container, MapsFragment.newInstance())
-                        .setReorderingAllowed(true)
-                        .commit();
+        authStateListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                if (savedInstanceState == null) {
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.main_container, MapsFragment.newInstance())
+                            .setReorderingAllowed(true)
+                            .commit();
+                }
+                initLoggedUi();
+            } else {
+                redirectToLogin();
             }
-            initLoggedUi();
-        }
+        };
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.addAuthStateListener(authStateListener);
     }
 
     @Nullable
@@ -82,13 +86,13 @@ public class AppActivity extends AppCompatActivity {
             Fragment fragment;
             int itemId = item.getItemId();
             if (itemId == R.id.list_view) {
-                fragment = new PlaceListFragment();
+                fragment = PlaceListFragment.newInstance();
             } else if (itemId == R.id.workmates) {
-                fragment = new WorkmatesFragment();
+                fragment = WorkmatesFragment.newInstance();
             } else if (itemId == R.id.chat) {
-                fragment = new ChatFragment();
+                fragment = ChatFragment.newInstance();
             } else {
-                fragment = new MapsFragment();
+                fragment = MapsFragment.newInstance();
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.main_container, fragment).commit();
             return true;

@@ -35,8 +35,9 @@
     <string name="lunch_channel_name">Your lunch notification.</string>
     <string name="lunch_channel_description">Notification for the chosen restaurant at 12 p.m.</string>
     <string name="lunch_notification_title">Your lunch restaurant.</string>
-    <string name="lunch_notification_short">You have chosen the following restaurant:</string>
     <string name="lunch_notification_content">You have chosen the restaurant %1$s located at %2$s. Your workmates who also chose this restaurant are: %3$s</string>
     <string name="lunch_notification_content_no_workmate">You have chosen the restaurant %1$s located at %2$s. Nobody is joining you.</string>
     <string name="setting_enable_notification">Enable notifications</string>
+    <string name="hint_enter_message">Enter your message</string>
+    <string name="send_button">Send button</string>
 </resources>

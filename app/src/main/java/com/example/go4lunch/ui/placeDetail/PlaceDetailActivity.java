@@ -10,9 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.work.ExistingWorkPolicy;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
 
 import com.bumptech.glide.Glide;
 import com.example.go4lunch.R;
@@ -22,11 +19,8 @@ import com.example.go4lunch.ui.placeDetail.viewState.PlaceState;
 import com.example.go4lunch.ui.placeDetail.viewState.UserState;
 import com.example.go4lunch.ui.placeDetail.viewState.WorkmateState;
 import com.example.go4lunch.utils.ViewUtils;
-import com.example.go4lunch.worker.NotificationWorker;
 
-import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
@@ -76,7 +70,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         binding.detailPlaceContent.placeDetailLikeButton.setOnClickListener(view -> this.viewModel.toggleLike());
         binding.chooseRestaurantFab.setOnClickListener(
                 view -> {
-                    this.viewModel.chooseRestaurant(getApplicationContext(), placeState.getId(), placeState.getName(),placeState.getAddress());
+                    this.viewModel.chooseRestaurant(getApplicationContext(), placeState.getId(), placeState.getName(), placeState.getAddress());
                 }
         );
 

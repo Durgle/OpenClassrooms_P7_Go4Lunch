@@ -16,15 +16,18 @@ public class Place {
         this.address = address;
     }
 
-    public Place() {}
+    public Place() {
+    }
 
     // --- GETTERS ---
     public String getUid() {
         return uid;
     }
+
     public String getName() {
         return name;
     }
+
     public String getAddress() {
         return address;
     }
@@ -33,9 +36,11 @@ public class Place {
     public void setUid(String uid) {
         this.uid = uid;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }

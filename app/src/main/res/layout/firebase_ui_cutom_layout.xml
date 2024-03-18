@@ -7,11 +7,11 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/login_bg"
+        android:contentDescription="@string/login_background"
         android:scaleType="centerCrop"
-        app:tint="@color/black_80"
+        android:src="@drawable/login_bg"
         android:tintMode="src_over"
-        android:contentDescription="@string/login_background"/>
+        app:tint="@color/black_80" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,17 +24,17 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".7"
+            android:contentDescription="@string/app_logo"
             android:paddingHorizontal="16dp"
             android:scaleType="fitEnd"
-            android:src="@drawable/logo"
-            android:contentDescription="@string/app_logo" />
+            android:src="@drawable/logo" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight=".3"
             android:text="@string/login_subtitle"
             android:textAlignment="center"
-            android:layout_weight=".3"
             android:textColor="@color/white"
             android:textSize="13sp" />
 
@@ -46,23 +46,22 @@
 
             <Button
                 android:id="@+id/emailSignInButton"
+                style="@style/FirebaseUI.Button.AccountChooser.EmailButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginVertical="8dp"
-                style="@style/FirebaseUI.Button.AccountChooser.EmailButton"
                 android:text="@string/sign_in_email" />
 
             <Button
                 android:id="@+id/googleSignInButton"
+                style="@style/FirebaseUI.Button.AccountChooser.GoogleButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
                 android:layout_marginVertical="8dp"
-                style="@style/FirebaseUI.Button.AccountChooser.GoogleButton"
                 android:text="@string/sign_in_google" />
-
-
+            
         </LinearLayout>
 
     </LinearLayout>

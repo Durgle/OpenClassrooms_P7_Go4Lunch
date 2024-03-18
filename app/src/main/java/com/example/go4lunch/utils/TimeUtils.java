@@ -1,8 +1,14 @@
 package com.example.go4lunch.utils;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 
 public class TimeUtils {
 
@@ -21,6 +27,20 @@ public class TimeUtils {
         }
 
         return currentTime.until(targetTime, ChronoUnit.MILLIS);
+    }
+
+    /**
+     * Formats it into a human-readable representation of the date and time
+     *
+     * @param timestamp Timestamp
+     * @return Formatted date
+     */
+    public static String formatDateTimeForDisplay(long timestamp) {
+        LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault());
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .appendLocalized(FormatStyle.MEDIUM, FormatStyle.MEDIUM)
+                .toFormatter(Locale.getDefault());
+        return dateTime.format(formatter);
     }
 
 }

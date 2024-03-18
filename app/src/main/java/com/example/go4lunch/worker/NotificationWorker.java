@@ -14,9 +14,6 @@ import com.example.go4lunch.data.models.firestore.User;
 import com.example.go4lunch.data.services.SettingRepository;
 import com.example.go4lunch.data.services.UserRepository;
 import com.example.go4lunch.utils.NotificationUtils;
-import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -42,7 +39,7 @@ public class NotificationWorker extends Worker {
         try {
             Setting settings = this.settingRepository.getSyncSettings();
 
-            if(settings == null || settings.getEnableNotifications()) {
+            if (settings == null || settings.getEnableNotifications()) {
                 LunchNotification lunchNotificationData = this.userRepository.getLunchNotificationData();
                 if (lunchNotificationData != null) {
 
@@ -62,7 +59,7 @@ public class NotificationWorker extends Worker {
                 return Result.failure();
             }
         } catch (ExecutionException | InterruptedException e) {
-            Log.e("NotificationWorker",e.toString());
+            Log.e("NotificationWorker", e.toString());
             return Result.failure();
         }
         return Result.success();

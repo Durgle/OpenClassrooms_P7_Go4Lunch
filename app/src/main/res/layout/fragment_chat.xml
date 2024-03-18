@@ -6,22 +6,22 @@
     android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:id="@+id/chat_message_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/chat_layout_message_input"
-        tools:listitem="@layout/chat_list_item"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:stackFromEnd="true"
         tools:itemCount="5"
-        app:stackFromEnd="true"/>
+        tools:listitem="@layout/chat_list_item" />
 
     <LinearLayout
         android:id="@+id/chat_layout_message_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:background="?attr/colorPrimary"
+        android:orientation="horizontal"
         android:padding="8dp">
 
         <EditText
@@ -29,19 +29,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Saisissez votre message"
-            android:textColor="@color/white"
+            android:autofillHints="textMultiLine"
+            android:hint="@string/hint_enter_message"
             android:inputType="textMultiLine"
             android:maxLines="3"
-            android:minLines="1" />
+            android:minLines="1"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_10_darken" />
 
         <ImageButton
             android:id="@+id/chat_send_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            app:tint="@color/black"
-            android:src="@drawable/baseline_send_24" />
+            android:contentDescription="@string/send_button"
+            android:src="@drawable/baseline_send_24"
+            app:tint="@color/black" />
 
     </LinearLayout>
 

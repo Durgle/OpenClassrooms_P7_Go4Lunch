@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -36,27 +35,29 @@
                 android:id="@+id/detail_place_photo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:src="@drawable/vault_boy"
-                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/place_photo"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/vault_boy" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-   <include android:id="@+id/detail_place_content" layout="@layout/activity_place_detail_content" />
+    <include
+        android:id="@+id/detail_place_content"
+        layout="@layout/activity_place_detail_content" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/choose_restaurant_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/fab_margin"
+        android:contentDescription="@string/button_choice_restaurant"
         app:layout_anchor="@id/place_detail_app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/baseline_check_circle_24"
-        android:contentDescription="@string/button_choice_restaurant" />
+        app:srcCompat="@drawable/baseline_check_circle_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

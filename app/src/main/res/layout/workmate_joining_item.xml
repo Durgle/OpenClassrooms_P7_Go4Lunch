@@ -7,32 +7,31 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
     android:layout_marginVertical="@dimen/small_content_margin"
-    tools:showIn="@layout/activity_place_detail_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_place_detail_content">
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/workmateJoiningPicture"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:strokeColor="@color/lightGrey"
-        app:strokeWidth="1dp"
         android:padding="2dp"
-        android:id="@+id/workmateJoiningPicture"
-        app:shapeAppearanceOverlay="@style/Widget.App.ShapeableImageView.Circular"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:src="@drawable/blank_profile"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/Widget.App.ShapeableImageView.Circular"
+        app:strokeColor="@color/lightGrey"
+        app:strokeWidth="1dp"
+        tools:src="@drawable/blank_profile" />
 
     <TextView
         android:id="@+id/workmateJoiningText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/small_content_margin"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/workmateJoiningPicture"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Scarlett is joining!"
-        />
+        app:layout_constraintStart_toEndOf="@+id/workmateJoiningPicture"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Scarlett is joining!" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

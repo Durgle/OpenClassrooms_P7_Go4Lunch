@@ -30,8 +30,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
-
 public class UserRepository extends FirestoreRepository {
 
     private static final String COLLECTION_NAME = "users";

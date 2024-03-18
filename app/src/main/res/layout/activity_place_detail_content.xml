@@ -11,9 +11,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/place_detail_data"
@@ -21,34 +21,34 @@
             android:layout_height="wrap_content"
             android:background="@color/red"
             android:orientation="vertical"
-            android:paddingTop="@dimen/content_margin"
             android:paddingHorizontal="@dimen/content_margin"
+            android:paddingTop="@dimen/content_margin"
             android:paddingBottom="@dimen/large_margin"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/place_detail_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/small_content_margin"
-            tools:text="Le Zinc"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:id="@+id/place_detail_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/small_content_margin"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Le Zinc" />
 
-        <TextView
-            android:id="@+id/place_detail_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:text="French restaurant - 12 rue du Faubourg Poissonière"
-            android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/place_detail_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:id="@+id/place_detail_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/place_detail_name"
+                tools:text="French restaurant - 12 rue du Faubourg Poissonière" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -56,79 +56,78 @@
             android:id="@+id/place_detail_button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/place_detail_data"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/place_detail_data">
 
             <TextView
                 android:id="@+id/place_detail_call_button"
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textAllCaps="true"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
                 android:padding="12dp"
                 android:text="@string/tab_item_call"
-                android:textStyle="bold"
-                android:drawablePadding="8dp"
-                app:drawableTopCompat="@drawable/baseline_local_phone_24"
-                app:drawableTint="?colorPrimary"
+                android:textAlignment="center"
+                android:textAllCaps="true"
                 android:textColor="?colorPrimary"
-                android:textAlignment="center"/>
+                android:textStyle="bold"
+                app:drawableTint="?colorPrimary"
+                app:drawableTopCompat="@drawable/baseline_local_phone_24" />
 
             <TextView
                 android:id="@+id/place_detail_like_button"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textAllCaps="true"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
                 android:padding="12dp"
                 android:text="@string/tab_item_like"
-                android:textStyle="bold"
-                android:drawablePadding="8dp"
-                app:drawableTopCompat="@drawable/baseline_star_24"
-                app:drawableTint="?colorPrimary"
+                android:textAlignment="center"
+                android:textAllCaps="true"
                 android:textColor="?colorPrimary"
-                android:textAlignment="center"/>
+                android:textStyle="bold"
+                app:drawableTint="?colorPrimary"
+                app:drawableTopCompat="@drawable/baseline_star_24" />
 
             <TextView
                 android:id="@+id/place_detail_website_button"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textAllCaps="true"
+                android:layout_weight="1"
+                android:drawablePadding="8dp"
                 android:padding="12dp"
                 android:text="@string/tab_item_website"
-                android:textStyle="bold"
-                android:drawablePadding="8dp"
-                app:drawableTopCompat="@drawable/baseline_public_24"
-                app:drawableTint="?colorPrimary"
+                android:textAlignment="center"
+                android:textAllCaps="true"
                 android:textColor="?colorPrimary"
-                android:textAlignment="center"/>
+                android:textStyle="bold"
+                app:drawableTint="?colorPrimary"
+                app:drawableTopCompat="@drawable/baseline_public_24" />
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
-            app:layout_constraintTop_toBottomOf="@id/place_detail_button_container"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/place_detail_divider"
             android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+            android:layout_height="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/place_detail_button_container" />
 
         <androidx.recyclerview.widget.RecyclerView
-            app:layout_constraintTop_toBottomOf="@id/place_detail_divider"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/workmateJoiningList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/workmateJoiningList"
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/workmate_joining_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/place_detail_divider"
             tools:itemCount="3"
-            />
+            tools:listitem="@layout/workmate_joining_item" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

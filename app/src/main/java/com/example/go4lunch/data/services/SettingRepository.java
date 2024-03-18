@@ -7,20 +7,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.go4lunch.data.models.LunchNotification;
 import com.example.go4lunch.data.models.firestore.Setting;
-import com.example.go4lunch.data.models.firestore.User;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -54,7 +48,7 @@ public class SettingRepository extends FirestoreRepository {
         String userId = this.getCurrentUserUID();
 
         if (userId != null) {
-            Setting settingObject = new Setting(userId,enableNotification);
+            Setting settingObject = new Setting(userId, enableNotification);
             this.getCollection().document(userId).set(settingObject)
                     .addOnFailureListener(e -> Log.e("SettingRepository", e.toString()));
         }
@@ -90,7 +84,7 @@ public class SettingRepository extends FirestoreRepository {
     public Setting getSyncSettings() throws ExecutionException, InterruptedException {
 
         String uid = this.getCurrentUserUID();
-        if(uid != null) {
+        if (uid != null) {
             DocumentSnapshot settingDocumentSnapshot = Tasks.await(this.getCollection().document(uid).get());
             if (settingDocumentSnapshot != null && settingDocumentSnapshot.exists()) {
                 return settingDocumentSnapshot.toObject(Setting.class);
