@@ -16,13 +16,10 @@ public abstract class FirestoreRepository {
     @NonNull
     protected final FirebaseFirestore firebaseFirestore;
     @NonNull
-    protected final AuthUI authUI;
-    @NonNull
     protected final FirebaseAuth firebaseAuth;
 
-    public FirestoreRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull AuthUI authUI, @NonNull FirebaseAuth firebaseAuth) {
+    public FirestoreRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull FirebaseAuth firebaseAuth) {
         this.firebaseFirestore = firebaseFirestore;
-        this.authUI = authUI;
         this.firebaseAuth = firebaseAuth;
     }
 

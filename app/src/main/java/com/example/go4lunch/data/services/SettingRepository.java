@@ -26,8 +26,8 @@ public class SettingRepository extends FirestoreRepository {
     private static final String ID_FIELD = "id";
     private static final String VALUE_FIELD = "value";
 
-    public SettingRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull AuthUI authUI, @NonNull FirebaseAuth firebaseAuth) {
-        super(firebaseFirestore, authUI, firebaseAuth);
+    public SettingRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull FirebaseAuth firebaseAuth) {
+        super(firebaseFirestore, firebaseAuth);
     }
 
     /**

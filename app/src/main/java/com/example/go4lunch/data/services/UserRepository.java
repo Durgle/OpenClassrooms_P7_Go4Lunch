@@ -40,8 +40,12 @@ public class UserRepository extends FirestoreRepository {
     private static final String PLACE_FIELD = "place";
     private static final String PLACE_ID_FIELD = "place.uid";
 
+    @NonNull
+    protected final AuthUI authUI;
+
     public UserRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull AuthUI authUI, @NonNull FirebaseAuth firebaseAuth) {
-        super(firebaseFirestore, authUI, firebaseAuth);
+        super(firebaseFirestore, firebaseAuth);
+        this.authUI = authUI;
     }
 
     protected CollectionReference getCollection() {

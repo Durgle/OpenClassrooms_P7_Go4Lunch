@@ -57,10 +57,10 @@ public class MainApplication extends Application {
         permissionChecker = new PermissionChecker(this);
         locationRepository = new LocationRepository(LocationServices.getFusedLocationProviderClient(this));
         userRepository = new UserRepository(FirebaseFirestore.getInstance(), AuthUI.getInstance(), FirebaseAuth.getInstance());
-        favoriteRepository = new FavoriteRepository(FirebaseFirestore.getInstance(), AuthUI.getInstance(), FirebaseAuth.getInstance());
+        favoriteRepository = new FavoriteRepository(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance());
         searchRepository = new SearchRepository();
-        chatRepository = new ChatRepository(FirebaseFirestore.getInstance(), AuthUI.getInstance(), FirebaseAuth.getInstance());
-        settingRepository = new SettingRepository(FirebaseFirestore.getInstance(), AuthUI.getInstance(), FirebaseAuth.getInstance());
+        chatRepository = new ChatRepository(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance());
+        settingRepository = new SettingRepository(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance());
     }
 
     public static MainApplication getApplication() {

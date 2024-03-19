@@ -14,6 +14,7 @@ import com.example.go4lunch.utils.TimeUtils;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -78,7 +79,7 @@ public class ChatViewModel extends ViewModel {
 
     public void send() {
         if (currentMessage.getValue() != null && !Objects.equals(currentMessage.getValue(), "")) {
-            this.chatRepository.sendMessage(currentMessage.getValue());
+            this.chatRepository.sendMessage(currentMessage.getValue(), new Date().getTime());
             currentMessage.setValue(null);
         }
     }

@@ -24,8 +24,8 @@ public class FavoriteRepository extends FirestoreRepository {
     private static final String PLACE_ID_FIELD = "placeId";
     private static final String VALUE_FIELD = "value";
 
-    public FavoriteRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull AuthUI authUI, @NonNull FirebaseAuth firebaseAuth) {
-        super(firebaseFirestore, authUI, firebaseAuth);
+    public FavoriteRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull FirebaseAuth firebaseAuth) {
+        super(firebaseFirestore, firebaseAuth);
     }
 
     /**

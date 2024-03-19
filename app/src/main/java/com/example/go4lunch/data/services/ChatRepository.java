@@ -14,7 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,8 +27,8 @@ public class ChatRepository extends FirestoreRepository {
     private static final String DATE_FIELD = "creationDate";
 
 
-    public ChatRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull AuthUI authUI, @NonNull FirebaseAuth firebaseAuth) {
-        super(firebaseFirestore, authUI, firebaseAuth);
+    public ChatRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull FirebaseAuth firebaseAuth) {
+        super(firebaseFirestore, firebaseAuth);
     }
 
     /**
@@ -46,13 +45,12 @@ public class ChatRepository extends FirestoreRepository {
      *
      * @param messageContent Message content
      */
-    public void sendMessage(@NonNull String messageContent) {
+    public void sendMessage(@NonNull String messageContent, long creationTimestamp) {
         String userId = this.getCurrentUserUID();
 
         if (userId != null) {
-            long date = new Date().getTime();
-            String uid = userId + "_" + date;
-            Message message = new Message(uid, messageContent, date, userId);
+            String uid = userId + "_" + creationTimestamp;
+            Message message = new Message(uid, messageContent, creationTimestamp, userId);
             this.getCollection().document(uid).set(message)
                     .addOnFailureListener(e -> Log.e("ChatRepository", e.toString()));
         }
