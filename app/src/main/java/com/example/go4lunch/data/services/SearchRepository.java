@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
  */
 public class SearchRepository {
 
-    private MutableLiveData<String> inputLiveData = new MutableLiveData<>();
+    private final MutableLiveData<String> inputLiveData = new MutableLiveData<>();
 
     public void searchPlace(String input) {
         inputLiveData.setValue(input);

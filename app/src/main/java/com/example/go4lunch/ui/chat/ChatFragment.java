@@ -45,7 +45,7 @@ public class ChatFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel.getMessages().observe(getViewLifecycleOwner(), list -> adapter.submitList(list));
         binding.chatMessageList.setAdapter(adapter);
-        viewModel.getCurrentMessages().observe(getViewLifecycleOwner(), currentMessage -> {
+        viewModel.getCurrentMessage().observe(getViewLifecycleOwner(), currentMessage -> {
             if (!binding.chatMessageInput.getText().toString().equals(currentMessage)) {
                 binding.chatMessageInput.setText(currentMessage);
             }

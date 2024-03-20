@@ -9,6 +9,7 @@ import androidx.work.WorkManager;
 
 import com.example.go4lunch.worker.NotificationWorker;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 public class WorkerUtils {
@@ -17,14 +18,15 @@ public class WorkerUtils {
      * Schedules a lunch notification to be triggered at the specified time
      *
      * @param context Context
-     * @param hours Hours
+     * @param hours   Hours
      * @param minutes Minutes
      * @param seconds Seconds
      */
     public static void scheduleLunchNotification(@NonNull Context context, int hours, int minutes, int seconds) {
 
+        LocalDateTime currentTime = LocalDateTime.now();
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class)
-                .setInitialDelay(TimeUtils.calculateMillisecondsUntilTarget(hours, minutes, seconds), TimeUnit.MILLISECONDS)
+                .setInitialDelay(TimeUtils.calculateMillisecondsUntilTarget(currentTime, hours, minutes, seconds), TimeUnit.MILLISECONDS)
                 .build();
 
         WorkManager.getInstance(context)

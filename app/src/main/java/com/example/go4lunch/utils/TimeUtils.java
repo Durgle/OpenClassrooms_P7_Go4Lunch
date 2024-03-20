@@ -1,5 +1,7 @@
 package com.example.go4lunch.utils;
 
+import androidx.annotation.NonNull;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,8 +17,7 @@ public class TimeUtils {
     /**
      * Calculates the difference in milliseconds between the current time and a specified target time.
      */
-    public static long calculateMillisecondsUntilTarget(int hours, int minutes, int seconds) {
-        LocalDateTime currentTime = LocalDateTime.now();
+    public static long calculateMillisecondsUntilTarget(@NonNull LocalDateTime currentTime, int hours, int minutes, int seconds) {
         LocalDateTime targetTime = LocalDateTime.of(
                 currentTime.toLocalDate(),
                 LocalTime.of(hours, minutes, seconds)
@@ -35,11 +36,11 @@ public class TimeUtils {
      * @param timestamp Timestamp
      * @return Formatted date
      */
-    public static String formatDateTimeForDisplay(long timestamp) {
+    public static String formatDateTimeForDisplay(long timestamp, Locale locale) {
         LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneId.systemDefault());
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .appendLocalized(FormatStyle.MEDIUM, FormatStyle.MEDIUM)
-                .toFormatter(Locale.getDefault());
+                .toFormatter(locale);
         return dateTime.format(formatter);
     }
 

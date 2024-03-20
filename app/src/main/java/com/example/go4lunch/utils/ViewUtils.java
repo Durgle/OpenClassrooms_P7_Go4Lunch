@@ -38,14 +38,4 @@ public class ViewUtils {
         setTextViewDrawableColor(textView, color);
     }
 
-    /**
-     * Set an icon to the left of the text
-     *
-     * @param textView     Text view
-     * @param iconDrawable Icon
-     */
-    public static void setLeftTextViewIcon(TextView textView, Drawable iconDrawable) {
-        textView.setCompoundDrawablesWithIntrinsicBounds(iconDrawable, null, null, null);
-    }
-
 }

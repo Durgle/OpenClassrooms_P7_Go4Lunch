@@ -59,6 +59,7 @@ public class LocationRepository {
 
         fusedLocationProviderClient.removeLocationUpdates(callback);
 
+        // TODO: Looper.getMainLooper() mettre en parametre du constructeur
         fusedLocationProviderClient.requestLocationUpdates(
                 new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY)
                         .setMinUpdateDistanceMeters(SMALLEST_DISPLACEMENT_THRESHOLD_METER)

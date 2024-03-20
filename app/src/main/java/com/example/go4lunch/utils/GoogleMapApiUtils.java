@@ -15,6 +15,8 @@ import com.example.go4lunch.data.models.map.PlaceOpeningHours;
  */
 public class GoogleMapApiUtils {
 
+    private static final String BASE_PHOTO_URL = "https://maps.googleapis.com/maps/api/place/photo";
+
     /**
      * Create google map photo url for the given photo
      *
@@ -26,7 +28,7 @@ public class GoogleMapApiUtils {
     @SuppressWarnings("SpellCheckingInspection")
     @NonNull
     public static String createPhotoUrl(@NonNull String photoReference, int maxWidth, int maxHeight) {
-        return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=" + maxWidth + "&maxheight=" + maxHeight + "&photo_reference=" + photoReference + "&key=" + BuildConfig.MAPS_API_KEY;
+        return  BASE_PHOTO_URL + "?maxwidth=" + maxWidth + "&maxheight=" + maxHeight + "&photo_reference=" + photoReference + "&key=" + BuildConfig.MAPS_API_KEY;
     }
 
     /**
@@ -72,7 +74,7 @@ public class GoogleMapApiUtils {
      * Format distance between two location
      *
      * @param currentLocation Current location
-     * @param placeLocation Pace location
+     * @param placeLocation Place location
      * @return Distance in meter
      */
     @NonNull
