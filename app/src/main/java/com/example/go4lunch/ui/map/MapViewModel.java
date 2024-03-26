@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.go4lunch.data.PermissionChecker;
 import com.example.go4lunch.data.models.firestore.User;
-import com.example.go4lunch.data.models.map.Place;
+import com.example.go4lunch.data.models.map.MapPlace;
 import com.example.go4lunch.data.models.map.PlaceAutocompletePrediction;
 import com.example.go4lunch.data.services.GoogleMapRepository;
 import com.example.go4lunch.data.services.LocationRepository;
@@ -37,7 +37,7 @@ public class MapViewModel extends ViewModel {
     private final MediatorLiveData<List<PlaceViewState>> nearbyPlaces = new MediatorLiveData<>();
 
     @NonNull
-    public static PlaceViewState mapPlace(@NonNull Place place, @NonNull Map<String, Long> workmateByPlace) {
+    public static PlaceViewState mapPlace(@NonNull MapPlace place, @NonNull Map<String, Long> workmateByPlace) {
         String placeId = place.getId();
         Long workmateCount = workmateByPlace.getOrDefault(placeId, 0L);
         LatLng location;
@@ -77,7 +77,7 @@ public class MapViewModel extends ViewModel {
             return new MutableLiveData<>(null);
         });
 
-        LiveData<List<Place>> nearbyPlacesLiveData = Transformations.switchMap(locationLiveData, location -> {
+        LiveData<List<MapPlace>> nearbyPlacesLiveData = Transformations.switchMap(locationLiveData, location -> {
             if (location != null) {
                 return this.googleMapRepository.getNearbyPlaceLiveData(location.getLatitude(), location.getLongitude());
             }
@@ -90,7 +90,7 @@ public class MapViewModel extends ViewModel {
     }
 
     private void combine(
-            @Nullable List<Place> places,
+            @Nullable List<MapPlace> places,
             @Nullable List<User> workmates,
             @Nullable List<PlaceAutocompletePrediction> predictions
     ) {
@@ -133,6 +133,7 @@ public class MapViewModel extends ViewModel {
         }
     }
 
+    @NonNull
     public LiveData<List<PlaceViewState>> getNearbyPlaces() {
         return this.nearbyPlaces;
     }

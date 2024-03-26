@@ -14,7 +14,7 @@ public class NearbySearchResponse {
     @NonNull
     @SerializedName("results")
     @Expose
-    private final List<Place> places;
+    private final List<MapPlace> places;
 
     @SerializedName("error_message")
     @Expose
@@ -24,14 +24,14 @@ public class NearbySearchResponse {
     @Expose
     private final List<String> infoMessages;
 
-    public NearbySearchResponse(@NonNull List<Place> places, @Nullable String errorMessage, @Nullable List<String> infoMessages) {
+    public NearbySearchResponse(@NonNull List<MapPlace> places, @Nullable String errorMessage, @Nullable List<String> infoMessages) {
         this.places = places;
         this.errorMessage = errorMessage;
         this.infoMessages = infoMessages;
     }
 
     @NonNull
-    public List<Place> getPlaces() {
+    public List<MapPlace> getPlaces() {
         return places;
     }
 

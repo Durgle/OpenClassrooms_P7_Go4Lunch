@@ -1,15 +1,14 @@
 package com.example.go4lunch.ui.placeDetail;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.go4lunch.data.models.firestore.Place;
 import com.example.go4lunch.data.models.firestore.User;
-import com.example.go4lunch.data.models.map.Place;
+import com.example.go4lunch.data.models.map.MapPlace;
 import com.example.go4lunch.data.services.FavoriteRepository;
 import com.example.go4lunch.data.services.GoogleMapRepository;
 import com.example.go4lunch.data.services.UserRepository;
@@ -17,7 +16,6 @@ import com.example.go4lunch.ui.placeDetail.viewState.PlaceDetailViewState;
 import com.example.go4lunch.ui.placeDetail.viewState.PlaceState;
 import com.example.go4lunch.ui.placeDetail.viewState.UserState;
 import com.example.go4lunch.ui.placeDetail.viewState.WorkmateState;
-import com.example.go4lunch.utils.WorkerUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -50,7 +48,7 @@ public class PlaceDetailViewModel extends ViewModel {
         this.userRepository = userRepository;
         this.favoriteRepository = favoriteRepository;
         this.placeId = placeId;
-        LiveData<Place> placeDetailsLiveData = this.googleMapRepository.getPlaceDetailsLiveData(this.placeId, null);
+        LiveData<MapPlace> placeDetailsLiveData = this.googleMapRepository.getPlaceDetailsLiveData(this.placeId, null);
         LiveData<List<User>> workmateListLiveData = this.userRepository.getWorkmatesForPlace(placeId);
         LiveData<User> userLiveData = this.userRepository.getUserData();
         LiveData<Boolean> isLikeLiveData = this.favoriteRepository.isLike(placeId);
@@ -90,18 +88,18 @@ public class PlaceDetailViewModel extends ViewModel {
     }
 
     private void combine(
-            @Nullable Place place,
+            @Nullable MapPlace place,
             @Nullable List<User> workmateList,
             @Nullable User user,
-            @Nullable Boolean favorite
+            @Nullable Boolean like
     ) {
 
-        if (place != null && workmateList != null && user != null && favorite != null) {
+        if (place != null && workmateList != null && user != null && like != null) {
             Boolean placeChosen = user.getPlace() != null && Objects.equals(user.getPlace().getUid(), this.placeId);
-            UserState userData = new UserState(user.getUid(), favorite, placeChosen);
+            UserState userData = new UserState(user.getUid(), like, placeChosen);
             PlaceState placeDetail = createPlaceDetailState(place);
-            List<WorkmateState> workmatelist = workmateList.stream().map(PlaceDetailViewModel::mapUser).collect(Collectors.toList());
-            PlaceDetailViewState viewState = new PlaceDetailViewState(userData, placeDetail, workmatelist);
+            List<WorkmateState> workmates = workmateList.stream().map(PlaceDetailViewModel::mapUser).collect(Collectors.toList());
+            PlaceDetailViewState viewState = new PlaceDetailViewState(userData, placeDetail, workmates);
             placeDetailViewState.setValue(viewState);
         } else {
             placeDetailViewState.setValue(null);
@@ -110,7 +108,7 @@ public class PlaceDetailViewModel extends ViewModel {
     }
 
     @NonNull
-    private PlaceState createPlaceDetailState(@NonNull Place place) {
+    public static PlaceState createPlaceDetailState(@NonNull MapPlace place) {
         return new PlaceState(
                 place.getId(),
                 place.getName(),
@@ -130,15 +128,15 @@ public class PlaceDetailViewModel extends ViewModel {
         this.favoriteRepository.togglePlaceLike(placeId);
     }
 
-    public void chooseRestaurant(Context context, String placeId, String placeName, String placeAddress) {
+    public void chooseRestaurant() {
         PlaceDetailViewState viewState = placeDetailViewState.getValue();
         if (viewState != null) {
-            WorkerUtils.scheduleLunchNotification(context, 16, 26, 0);
+
             if (viewState.getUser().isChoose()) {
                 this.userRepository.updateChosenRestaurant(null);
             } else {
                 this.userRepository.updateChosenRestaurant(
-                        new com.example.go4lunch.data.models.firestore.Place(placeId, placeName, placeAddress)
+                        new Place(viewState.getPlace().getId(), viewState.getPlace().getName(), viewState.getPlace().getAddress())
                 );
             }
         }

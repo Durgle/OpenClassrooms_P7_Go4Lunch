@@ -23,7 +23,8 @@ public class GoogleMapApiUtilsUnitTest {
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
 
     @Before
-    public void setup() {}
+    public void setup() {
+    }
 
     @Test
     public void createPhotoUrl_success() {
@@ -37,15 +38,15 @@ public class GoogleMapApiUtilsUnitTest {
                 "&photo_reference=" + photoReference +
                 "&key=" + BuildConfig.MAPS_API_KEY;
 
-        String result = GoogleMapApiUtils.createPhotoUrl(photoReference,maxWidth,maxHeight);
+        String result = GoogleMapApiUtils.createPhotoUrl(photoReference, maxWidth, maxHeight);
 
         assertEquals(expectedUrl, result);
     }
 
     @Test
     public void createStatus_success() {
-        PlaceOpeningHours open = new PlaceOpeningHours(true,null,null,null,null);
-        PlaceOpeningHours close = new PlaceOpeningHours(false,null,null,null,null);
+        PlaceOpeningHours open = new PlaceOpeningHours(true, null, null, null, null);
+        PlaceOpeningHours close = new PlaceOpeningHours(false, null, null, null, null);
 
         int result1 = GoogleMapApiUtils.createStatus(open);
         int result2 = GoogleMapApiUtils.createStatus(close);
@@ -57,7 +58,6 @@ public class GoogleMapApiUtilsUnitTest {
     @Test
     public void formatStarRating_success() {
         Float fiveStar = 5F;
-        Float noDefinedStar = null;
         Float floatStar = 3.5F;
 
         String expectedResult1 = "★★★";
@@ -66,7 +66,7 @@ public class GoogleMapApiUtilsUnitTest {
 
 
         String result1 = GoogleMapApiUtils.formatStarRating(fiveStar);
-        String result2 = GoogleMapApiUtils.formatStarRating(noDefinedStar);
+        String result2 = GoogleMapApiUtils.formatStarRating(null);
         String result3 = GoogleMapApiUtils.formatStarRating(floatStar);
 
         assertEquals(expectedResult1, result1);

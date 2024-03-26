@@ -14,7 +14,6 @@ import com.example.go4lunch.ui.workmate.WorkmateViewModel;
 import com.example.go4lunch.ui.workmate.WorkmateViewState;
 import com.example.go4lunch.utils.LiveDataTestUtil;
 
-import org.jetbrains.annotations.Contract;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

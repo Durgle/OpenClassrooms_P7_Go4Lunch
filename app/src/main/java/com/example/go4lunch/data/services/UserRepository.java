@@ -133,12 +133,11 @@ public class UserRepository extends FirestoreRepository {
                             Log.e("UserRepository", "getAllWorkmates", error);
                         }
 
-                        List<User> userList = new ArrayList<>();
+                        List<User> userList;
                         if (querySnapshots != null) {
-                            for (QueryDocumentSnapshot document : querySnapshots) {
-                                User user = document.toObject(User.class);
-                                userList.add(user);
-                            }
+                            userList = querySnapshots.toObjects(User.class);
+                        } else {
+                            userList = new ArrayList<>();
                         }
                         List<User> sortedUser = userList.stream()
                                 .sorted(Comparator.comparing((User user) -> user.getPlace() != null ? 0 : 1)
@@ -159,12 +158,11 @@ public class UserRepository extends FirestoreRepository {
                         Log.e("UserRepository", "getAllUsers", error);
                     }
 
-                    List<User> userList = new ArrayList<>();
+                    List<User> userList;
                     if (querySnapshots != null) {
-                        for (QueryDocumentSnapshot document : querySnapshots) {
-                            User user = document.toObject(User.class);
-                            userList.add(user);
-                        }
+                        userList = querySnapshots.toObjects(User.class);
+                    } else {
+                        userList = new ArrayList<>();
                     }
                     users.setValue(userList);
                 });
@@ -183,12 +181,11 @@ public class UserRepository extends FirestoreRepository {
                             Log.e("UserRepository", "getWorkmatesForPlace", error);
                         }
 
-                        List<User> userList = new ArrayList<>();
+                        List<User> userList;
                         if (querySnapshots != null) {
-                            for (QueryDocumentSnapshot document : querySnapshots) {
-                                User user = document.toObject(User.class);
-                                userList.add(user);
-                            }
+                            userList = querySnapshots.toObjects(User.class);
+                        } else {
+                            userList = new ArrayList<>();
                         }
                         users.setValue(userList);
                     });

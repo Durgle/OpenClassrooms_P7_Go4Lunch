@@ -1,6 +1,7 @@
 package com.example.go4lunch;
 
 import android.app.Application;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.work.Configuration;
@@ -55,7 +56,7 @@ public class MainApplication extends Application {
         sApplication = this;
         googleMapRepository = new GoogleMapRepository(RetrofitService.getGoogleMapApi());
         permissionChecker = new PermissionChecker(this);
-        locationRepository = new LocationRepository(LocationServices.getFusedLocationProviderClient(this));
+        locationRepository = new LocationRepository(LocationServices.getFusedLocationProviderClient(this), Looper.getMainLooper());
         userRepository = new UserRepository(FirebaseFirestore.getInstance(), AuthUI.getInstance(), FirebaseAuth.getInstance());
         favoriteRepository = new FavoriteRepository(FirebaseFirestore.getInstance(), FirebaseAuth.getInstance());
         searchRepository = new SearchRepository();

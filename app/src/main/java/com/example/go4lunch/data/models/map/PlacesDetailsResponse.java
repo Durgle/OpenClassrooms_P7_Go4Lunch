@@ -14,7 +14,7 @@ public class PlacesDetailsResponse {
     @NonNull
     @SerializedName("result")
     @Expose
-    private final Place place;
+    private final MapPlace place;
 
     @SerializedName("status")
     @Expose
@@ -24,14 +24,14 @@ public class PlacesDetailsResponse {
     @Expose
     private final List<String> infoMessages;
 
-    public PlacesDetailsResponse(@NonNull Place place, @NonNull String status, @Nullable List<String> infoMessages) {
+    public PlacesDetailsResponse(@NonNull MapPlace place, @NonNull String status, @Nullable List<String> infoMessages) {
         this.place = place;
         this.status = status;
         this.infoMessages = infoMessages;
     }
 
     @NonNull
-    public Place getPlace() {
+    public MapPlace getPlace() {
         return place;
     }
 

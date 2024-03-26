@@ -25,11 +25,14 @@ public class LocationRepository {
     @NonNull
     private final FusedLocationProviderClient fusedLocationProviderClient;
     @NonNull
+    private final Looper looper;
+    @NonNull
     private final MutableLiveData<Location> locationMutableLiveData = new MutableLiveData<>(null);
     private LocationCallback callback;
 
-    public LocationRepository(@NonNull FusedLocationProviderClient fusedLocationProviderClient) {
+    public LocationRepository(@NonNull FusedLocationProviderClient fusedLocationProviderClient, Looper looper) {
         this.fusedLocationProviderClient = fusedLocationProviderClient;
+        this.looper = looper;
     }
 
     /**
@@ -59,14 +62,13 @@ public class LocationRepository {
 
         fusedLocationProviderClient.removeLocationUpdates(callback);
 
-        // TODO: Looper.getMainLooper() mettre en parametre du constructeur
         fusedLocationProviderClient.requestLocationUpdates(
                 new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY)
                         .setMinUpdateDistanceMeters(SMALLEST_DISPLACEMENT_THRESHOLD_METER)
                         .setIntervalMillis(LOCATION_REQUEST_INTERVAL_MS)
                         .build(),
                 callback,
-                Looper.getMainLooper()
+                looper
         );
     }
 
@@ -77,6 +79,20 @@ public class LocationRepository {
         if (callback != null) {
             fusedLocationProviderClient.removeLocationUpdates(callback);
         }
+    }
+
+    /**
+     * Create location with given latitude and longitude
+     *
+     * @param latitude Latitude
+     * @param longitude Longitude
+     * @return Location
+     */
+    public Location createLocation(double latitude, double longitude) {
+        Location location = new Location("");
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+        return location;
     }
 
 }

@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 import java.util.Objects;
 
-public class Place {
+public class MapPlace {
 
     @SerializedName("business_status")
     @Expose
@@ -63,7 +63,7 @@ public class Place {
     @Expose
     private final String vicinity;
 
-    public Place(
+    public MapPlace(
             @Nullable String businessStatus,
             @Nullable String formattedAddress,
             @Nullable String formattedPhoneNumber,
@@ -162,7 +162,7 @@ public class Place {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Place place = (Place) o;
+        MapPlace place = (MapPlace) o;
         return Objects.equals(businessStatus, place.businessStatus) && Objects.equals(formattedAddress, place.formattedAddress) && Objects.equals(formattedPhoneNumber, place.formattedPhoneNumber) && Objects.equals(geometry, place.geometry) && Objects.equals(photos, place.photos) && Objects.equals(icon, place.icon) && Objects.equals(name, place.name) && Objects.equals(openingHours, place.openingHours) && Objects.equals(id, place.id) && Objects.equals(rating, place.rating) && Objects.equals(reservable, place.reservable) && Objects.equals(website, place.website) && Objects.equals(vicinity, place.vicinity);
     }
 

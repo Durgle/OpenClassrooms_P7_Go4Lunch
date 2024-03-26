@@ -1,5 +1,6 @@
 package com.example.go4lunch.data.models.firestore;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Objects;
@@ -18,6 +19,14 @@ public class User {
         this.displayName = displayName;
         this.email = email;
         this.urlPicture = urlPicture;
+    }
+
+    public User(String uid, String displayName, String email, @Nullable String urlPicture, @Nullable Place place) {
+        this.uid = uid;
+        this.displayName = displayName;
+        this.email = email;
+        this.urlPicture = urlPicture;
+        this.place = place;
     }
 
     public User() {}
@@ -56,5 +65,30 @@ public class User {
     }
     public void setPlace(Place place) {
         this.place = place;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(uid, user.uid) && Objects.equals(displayName, user.displayName) && Objects.equals(email, user.email) && Objects.equals(urlPicture, user.urlPicture) && Objects.equals(place, user.place);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uid, displayName, email, urlPicture, place);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", email='" + email + '\'' +
+                ", urlPicture='" + urlPicture + '\'' +
+                ", place=" + place +
+                '}';
     }
 }

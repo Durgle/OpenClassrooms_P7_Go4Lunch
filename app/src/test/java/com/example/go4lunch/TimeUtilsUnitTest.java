@@ -24,13 +24,14 @@ public class TimeUtilsUnitTest {
     public InstantTaskExecutorRule instantExecutorRule = new InstantTaskExecutorRule();
 
     @Before
-    public void setup() {}
+    public void setup() {
+    }
 
     @Test
     public void calculateMillisecondsUntilTarget_success() {
-        LocalDateTime currentTime = LocalDateTime.of(2024,3,19,5,0,0);
-        long expected = 7;
-        long result = TimeUtils.calculateMillisecondsUntilTarget(currentTime,12,0,0);
+        LocalDateTime currentTime = LocalDateTime.of(2024, 3, 19, 5, 0, 0);
+        long expected = 25200000;
+        long result = TimeUtils.calculateMillisecondsUntilTarget(currentTime, 12, 0, 0);
 
         assertEquals(expected, result);
     }

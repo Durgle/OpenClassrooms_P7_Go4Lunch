@@ -26,7 +26,6 @@ public class ChatRepository extends FirestoreRepository {
     private static final String MESSAGE_FIELD = "message";
     private static final String DATE_FIELD = "creationDate";
 
-
     public ChatRepository(@NonNull FirebaseFirestore firebaseFirestore, @NonNull FirebaseAuth firebaseAuth) {
         super(firebaseFirestore, firebaseAuth);
     }
@@ -69,13 +68,11 @@ public class ChatRepository extends FirestoreRepository {
                         Log.e("ChatRepository", "getMessages", error);
                     }
 
-                    List<Message> messageList = new ArrayList<>();
+                    List<Message> messageList;
                     if (querySnapshots != null) {
-                        for (QueryDocumentSnapshot document : querySnapshots) {
-                            Message message = document.toObject(Message.class);
-
-                            messageList.add(message);
-                        }
+                        messageList = querySnapshots.toObjects(Message.class);
+                    } else {
+                        messageList = new ArrayList<>();
                     }
                     messages.setValue(messageList);
                 });

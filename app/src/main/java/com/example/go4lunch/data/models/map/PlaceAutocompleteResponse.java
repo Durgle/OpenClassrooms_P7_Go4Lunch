@@ -29,7 +29,7 @@ public class PlaceAutocompleteResponse {
     @Expose
     private final List<String> infoMessages;
 
-    public PlaceAutocompleteResponse(@NonNull List<PlaceAutocompletePrediction> predictions, @NonNull String status, String errorMessage, List<String> infoMessages) {
+    public PlaceAutocompleteResponse(@NonNull List<PlaceAutocompletePrediction> predictions, @NonNull String status, @Nullable String errorMessage, @Nullable List<String> infoMessages) {
         this.predictions = predictions;
         this.status = status;
         this.errorMessage = errorMessage;

@@ -3,6 +3,8 @@ package com.example.go4lunch.viewModel;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import androidx.annotation.NonNull;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -15,23 +17,20 @@ import com.example.go4lunch.data.services.ChatRepository;
 import com.example.go4lunch.data.services.UserRepository;
 import com.example.go4lunch.ui.chat.ChatViewModel;
 import com.example.go4lunch.ui.chat.MessageViewState;
-import com.example.go4lunch.ui.setting.SettingViewModel;
-import com.example.go4lunch.ui.setting.SettingViewState;
 import com.example.go4lunch.utils.LiveDataTestUtil;
 import com.example.go4lunch.utils.TimeUtils;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.jetbrains.annotations.Contract;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -118,6 +117,31 @@ public class ChatViewModelUnitTest {
         );
 
         assertEquals(result, expected);
+    }
+
+    @Test
+    public void send_success() {
+        ChatViewModel viewModel = new ChatViewModel(chatRepository, userRepository);
+
+        String message = "Message de chat";
+        viewModel.onMessageChanged(message);
+        viewModel.send();
+
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.captor();
+        Mockito.verify(chatRepository).sendMessage(argumentCaptor.capture(), anyLong());
+        String messagePassed = argumentCaptor.getValue();
+        assertEquals(message, messagePassed);
+    }
+
+    @Test
+    public void sendWithoutMessage_success() {
+        ChatViewModel viewModel = new ChatViewModel(chatRepository, userRepository);
+
+        String message = "";
+        viewModel.onMessageChanged(message);
+        viewModel.send();
+
+        Mockito.verify(chatRepository, Mockito.never()).sendMessage(anyString(), anyLong());
     }
 
 }

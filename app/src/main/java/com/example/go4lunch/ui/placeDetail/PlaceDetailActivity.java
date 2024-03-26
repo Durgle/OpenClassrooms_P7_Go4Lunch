@@ -19,6 +19,7 @@ import com.example.go4lunch.ui.placeDetail.viewState.PlaceState;
 import com.example.go4lunch.ui.placeDetail.viewState.UserState;
 import com.example.go4lunch.ui.placeDetail.viewState.WorkmateState;
 import com.example.go4lunch.utils.ViewUtils;
+import com.example.go4lunch.utils.WorkerUtils;
 
 import java.util.List;
 
@@ -69,9 +70,10 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         binding.detailPlaceContent.placeDetailLikeButton.setOnClickListener(view -> this.viewModel.toggleLike());
         binding.chooseRestaurantFab.setOnClickListener(
-                view -> this.viewModel.chooseRestaurant(
-                        getApplicationContext(), placeState.getId(), placeState.getName(), placeState.getAddress()
-                )
+                view -> {
+                    WorkerUtils.scheduleLunchNotification(getApplicationContext(), 12, 0, 0);
+                    this.viewModel.chooseRestaurant();
+                }
         );
 
         if (userState.isChoose()) {
