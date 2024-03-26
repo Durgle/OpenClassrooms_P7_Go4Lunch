@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 
-import com.example.go4lunch.data.models.map.PlaceOpeningHours;
-import com.example.go4lunch.utils.GoogleMapApiUtils;
 import com.example.go4lunch.utils.TimeUtils;
 
 import org.junit.Before;

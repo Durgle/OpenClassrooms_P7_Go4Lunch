@@ -91,7 +91,7 @@ public class ChatViewModelUnitTest {
     }
 
     @Test
-    public void mapMessageIntoMessageViewState_success() throws InterruptedException {
+    public void mapMessageIntoMessageViewState_success() {
         Mockito.when(firebaseUser.getUid()).thenReturn("user1");
         MessageViewState result = ChatViewModel.mapMessageIntoMessageViewState(message1, firebaseUser, user1);
 

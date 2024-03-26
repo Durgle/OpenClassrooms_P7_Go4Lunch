@@ -30,7 +30,7 @@ public class LocationRepository {
     private final MutableLiveData<Location> locationMutableLiveData = new MutableLiveData<>(null);
     private LocationCallback callback;
 
-    public LocationRepository(@NonNull FusedLocationProviderClient fusedLocationProviderClient, Looper looper) {
+    public LocationRepository(@NonNull FusedLocationProviderClient fusedLocationProviderClient, @NonNull Looper looper) {
         this.fusedLocationProviderClient = fusedLocationProviderClient;
         this.looper = looper;
     }

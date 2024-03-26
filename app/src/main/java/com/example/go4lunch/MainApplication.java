@@ -4,7 +4,6 @@ import android.app.Application;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
-import androidx.work.Configuration;
 
 import com.example.go4lunch.data.PermissionChecker;
 import com.example.go4lunch.data.RetrofitService;
@@ -24,28 +23,44 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class MainApplication extends Application {
 
     private static MainApplication sApplication;
-    /** @noinspection NotNullFieldNotInitialized*/
+    /**
+     * @noinspection NotNullFieldNotInitialized
+     */
     @NonNull
     private GoogleMapRepository googleMapRepository;
-    /** @noinspection NotNullFieldNotInitialized*/
+    /**
+     * @noinspection NotNullFieldNotInitialized
+     */
     @NonNull
     private PermissionChecker permissionChecker;
-    /** @noinspection NotNullFieldNotInitialized*/
+    /**
+     * @noinspection NotNullFieldNotInitialized
+     */
     @NonNull
     private LocationRepository locationRepository;
-    /** @noinspection NotNullFieldNotInitialized*/
+    /**
+     * @noinspection NotNullFieldNotInitialized
+     */
     @NonNull
     private UserRepository userRepository;
-    /** @noinspection NotNullFieldNotInitialized*/
+    /**
+     * @noinspection NotNullFieldNotInitialized
+     */
     @NonNull
     private FavoriteRepository favoriteRepository;
-    /** @noinspection NotNullFieldNotInitialized*/
+    /**
+     * @noinspection NotNullFieldNotInitialized
+     */
     @NonNull
     private SearchRepository searchRepository;
-    /** @noinspection NotNullFieldNotInitialized*/
+    /**
+     * @noinspection NotNullFieldNotInitialized
+     */
     @NonNull
     private ChatRepository chatRepository;
-    /** @noinspection NotNullFieldNotInitialized*/
+    /**
+     * @noinspection NotNullFieldNotInitialized
+     */
     @NonNull
     private SettingRepository settingRepository;
 

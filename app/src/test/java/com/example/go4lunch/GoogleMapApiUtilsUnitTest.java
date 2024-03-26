@@ -2,8 +2,6 @@ package com.example.go4lunch;
 
 import static org.junit.Assert.assertEquals;
 
-import android.location.Location;
-
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 
 import com.example.go4lunch.data.models.map.PlaceOpeningHours;
@@ -14,7 +12,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Mockito;
 
 @RunWith(JUnit4.class)
 public class GoogleMapApiUtilsUnitTest {
